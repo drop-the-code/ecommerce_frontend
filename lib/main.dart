@@ -5,6 +5,7 @@ import 'package:ecommerce_frontend/view/errors/forbidden.dart';
 import 'package:ecommerce_frontend/view/product/productList.dart';
 import 'package:ecommerce_frontend/view/product/product_form.dart';
 import 'package:ecommerce_frontend/view/errors/unknown.dart';
+import 'package:ecommerce_frontend/view/user/ListUser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 
@@ -19,10 +20,21 @@ class Main extends StatelessWidget {
 
   static Widget checkAuthenticate(Widget fromPage) {
     User user = getUser() as User;
-    if (user.token == null)
+    if (user.token == null) {
+      print("aqui");
       return ForbiddenPage();
-    else
+    } else {
       return fromPage;
+    }
+  }
+
+  static Widget checkFuncionarioAuthenticate(Widget fromPage) {
+    User user = getUser() as User;
+    if (user.token == null && user.role == 'funcionario') {
+      return ForbiddenPage();
+    } else {
+      return fromPage;
+    }
   }
 
   @override
@@ -34,28 +46,33 @@ class Main extends StatelessWidget {
         // platform: TargetPlatform.iOS,
         primarySwatch: Colors.blue,
       ),
-      /*initialRoute: '/login',
-      home: LoginPage(),
+      initialRoute: '/login',
+      // home: LoginPage(),
       onGenerateRoute: (settings) {
-        if (settings.name == "/login") {
+        if (settings.name == AppRoutes.USER_LIST) {
+          return MaterialPageRoute(builder: (context) => UserListPage());
+        }
+        if (settings.name == AppRoutes.LOGIN) {
           return MaterialPageRoute(builder: (context) => LoginPage());
         }
-        if (settings.name == "/register") {
+        if (settings.name == AppRoutes.REGISTER) {
           return MaterialPageRoute(builder: (context) => RegisterPage());
         }
-        if (settings.name == "/listProduto") {
-          return MaterialPageRoute(builder: (context) => ProductListPage());
+        if (settings.name == AppRoutes.PRODUCT_LIST) {
+          return MaterialPageRoute(
+              builder: (context) => checkAuthenticate(ProductListPage()));
         }
         // unknown route
         return MaterialPageRoute(builder: (_) => UnknownPage());
-      },*/
-      routes: {
-        AppRoutes.HOME: (_) => LoginPage(),
-        AppRoutes.PRODUCT_FORM: (_) => checkAuthenticate(ProductForm()),
-        AppRoutes.LOGIN: (_) => LoginPage(),
-        AppRoutes.PRODUCT_LIST: (_) => checkAuthenticate(ProductListPage()),
-        AppRoutes.REGISTER: (_) => RegisterPage(),
       },
+      // routes: {
+      //   AppRoutes.USER_LIST: (_) => UserListPage(),
+      //   AppRoutes.HOME: (_) => LoginPage(),
+      //   AppRoutes.PRODUCT_FORM: (_) => checkAuthenticate(ProductForm()),
+      //   AppRoutes.LOGIN: (_) => LoginPage(),
+      //   AppRoutes.PRODUCT_LIST: (_) => checkAuthenticate(ProductListPage()),
+      //   AppRoutes.REGISTER: (_) => RegisterPage(),
+      // },
     );
   }
 }
