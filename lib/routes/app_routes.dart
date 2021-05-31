@@ -1,10 +1,11 @@
 class AppRoutes {
   static const HOME = '/';
-  static const PRODUCT_FORM = '/product-form';
-  static const PRODUCT_LIST = '/produto-list';
+  static const PRODUCT_FORM = '/product/create/';
+  static const PRODUCT_LIST = '/product/list/';
   static const LOGIN = '/login';
   static const REGISTER = '/register';
-
+  static const FORBIDDEN = '/erro/403';
+  static const UNKNOWN = '/erro/404';
   /*
     '/login': (context) => LoginPage(),
     '/register': (context) => RegisterPage(),

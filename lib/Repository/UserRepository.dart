@@ -21,8 +21,9 @@ class UserRepository {
           }));
       if (response.statusCode == 200) {
         print("dentro if 200");
-        print(response.data);
+        // print(response.data);
         User user = User.fromJson(response.data);
+        await FlutterSession().set("user", user);
         await FlutterSession().set("token", user.token);
         return user;
       } else
@@ -38,7 +39,6 @@ class UserRepository {
     String token = await FlutterSession().get("token");
     Response response = await _dio.get("http://localhost:3000/user",
         options: Options(headers: {"Authorization": "Bearer $token"}));
-
     List<User> users = (response.data as List).map((item) {
       return User.fromJson(item);
     }).toList();
@@ -46,7 +46,8 @@ class UserRepository {
   }
 
   Future<User> getByID(id) async {
-    String token = await FlutterSession().get("token");
+    User user = await FlutterSession().get("user");
+    String token = user.token;
     Response response = await _dio.get("http://localhost:3000/users/$id",
         options: Options(headers: {"Authorization": "Bearer $token"}));
     return User.fromJson(response.data);
