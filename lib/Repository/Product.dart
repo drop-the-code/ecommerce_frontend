@@ -22,7 +22,7 @@ class ProductRepository {
 
   Future<bool> put(Product product) async {
     try {
-      var response = await Dio().post('http://localhost:3000/profile', data: {
+      var response = await Dio().post('http://localhost:3000/products', data: {
         'name': product.name,
         'price': product.price,
         'provider_cnpj': product.provider_cnpj,

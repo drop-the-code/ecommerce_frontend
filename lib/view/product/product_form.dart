@@ -45,9 +45,10 @@ class ProductForm extends StatelessWidget {
                   onSaved: (value) => _formData['name'] = value as String,
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(labelText: 'Preço'),
-                  onSaved: (value) =>
-                      _formData['price'] = double.parse(value as String) + .0,
+                  onSaved: (value) => _formData['price'] =
+                      (double.parse(value as String) as double) + .0,
                 ),
                 TextFormField(
                   decoration: InputDecoration(labelText: 'CNPJ do fornecedor'),
