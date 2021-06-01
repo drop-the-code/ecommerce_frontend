@@ -29,6 +29,7 @@ class ProductForm extends StatelessWidget {
                       provider_cnpj: _formData['provider_cnpj'] as String,
                       description: _formData['description'] as String);
                   bool error = await new ProductController().put(product);
+                  print(error);
                   Navigator.of(context).pop();
                 }
               })
@@ -42,23 +43,21 @@ class ProductForm extends StatelessWidget {
               children: <Widget>[
                 TextFormField(
                   decoration: InputDecoration(labelText: 'Nome'),
-                  onSaved: (value) => _formData['name'] = value as String,
+                  onSaved: (value) => _formData['name'] = value,
                 ),
                 TextFormField(
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(labelText: 'Preço'),
-                  onSaved: (value) => _formData['price'] =
-                      (double.parse(value as String) as double) + .0,
+                  onSaved: (value) =>
+                      _formData['price'] = (double.parse(value)) + .0,
                 ),
                 TextFormField(
                   decoration: InputDecoration(labelText: 'CNPJ do fornecedor'),
-                  onSaved: (value) =>
-                      _formData['provider_cnpj'] = value as String,
+                  onSaved: (value) => _formData['provider_cnpj'] = value,
                 ),
                 TextFormField(
                   decoration: InputDecoration(labelText: 'Descrição'),
-                  onSaved: (value) =>
-                      _formData['description'] = value as String,
+                  onSaved: (value) => _formData['description'] = value,
                 ),
               ],
             ),
