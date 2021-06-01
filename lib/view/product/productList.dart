@@ -115,33 +115,3 @@ class DetailPage extends StatelessWidget {
         ));
   }
 }
-
-class FormProduct {
-  final Product product;
-
-  FormProduct(this.product);
-
-  bool edit() {
-    return false;
-  }
-
-  bool put() {
-    /*
-    var inputs = {
-      'name': 'kaio',
-      'price': 334,
-      'provider_cnpj': '234234',
-      'description': 'zzzzzzzzzzzzzz',
-    };
-    var product = new Product(
-        name: inputs['name'],
-        price: inputs['price'],
-        provider_cnpj: inputs['provider_cnpj'],
-        description: inputs['description']);
-
-    //notifyListeners(); // atualiza a tela
-    return new ProductController().put(product);
-    */
-    return false;
-  }
-}

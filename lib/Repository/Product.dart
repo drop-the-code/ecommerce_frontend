@@ -9,7 +9,7 @@ class ProductRepository {
       for (var u in response.data) {
         Product product = new Product(
             name: u["name"],
-            price: u["price"],
+            price: u["price"] as double,
             provider_cnpj: u["provider_cnpj"],
             description: u["description"]);
         products.add(product);
@@ -22,18 +22,18 @@ class ProductRepository {
 
   Future<bool> put(Product product) async {
     try {
-      var response = await Dio().post('http://localhost:3000/profile', data: {
+      var response = await Dio().post('http://localhost:3000/products', data: {
         'name': product.name,
         'price': product.price,
         'provider_cnpj': product.provider_cnpj,
         'description': product.description,
       });
       if (response.data != null) {
-        return true;
+        return false;
       }
     } catch (e) {
       print(e);
     }
-    return false;
+    return true;
   }
 }

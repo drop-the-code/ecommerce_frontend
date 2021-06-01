@@ -8,11 +8,10 @@ class ProductController {
     //return products as List<Product>;
   }
 
-  bool put(Product product) {
-    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+  Future<bool> put(Product product) {
     if (product == null) {
-      return false;
+      return Future<bool>.value(false);
     }
-    return (new ProductRepository().put(product) as bool);
+    return new ProductRepository().put(product);
   }
 }
