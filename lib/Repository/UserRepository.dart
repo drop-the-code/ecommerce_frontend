@@ -23,8 +23,6 @@ class UserRepository {
         print("dentro if 200");
         // print(response.data);
         User user = User.fromJson(response.data);
-        await FlutterSession().set("user", user);
-        await FlutterSession().set("token", user.token);
         return user;
       } else
         print("fora if 200");

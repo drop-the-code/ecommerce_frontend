@@ -1,11 +1,13 @@
 import 'package:ecommerce_frontend/routes/app_routes.dart';
+import 'package:ecommerce_frontend/shared/user_session.dart';
+import 'package:ecommerce_frontend/shared/user_store.dart';
 import 'package:ecommerce_frontend/view/Login.dart';
 import 'package:ecommerce_frontend/view/auth/Register.dart';
 import 'package:ecommerce_frontend/view/errors/forbidden.dart';
 import 'package:ecommerce_frontend/view/product/productList.dart';
 import 'package:ecommerce_frontend/view/product/product_form.dart';
 import 'package:ecommerce_frontend/view/errors/unknown.dart';
-import 'package:ecommerce_frontend/view/user/ListUser.dart';
+import 'package:ecommerce_frontend/view/user/user_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 
@@ -16,25 +18,22 @@ void main() {
 }
 
 class Main extends StatelessWidget {
-  static Future<User> getUser() async => await FlutterSession().get("user");
-
   static Widget checkAuthenticate(Widget fromPage) {
-    User user = getUser() as User;
-    if (user.token == null) {
-      print("aqui");
-      return ForbiddenPage();
-    } else {
-      return fromPage;
+    UserStore userStore = UserSession.instance;
+    User user = userStore.getUser();
+    if (user != null) {
+      if (user.token != null) return fromPage;
     }
+    return ForbiddenPage();
   }
 
-  static Widget checkFuncionarioAuthenticate(Widget fromPage) {
-    User user = getUser() as User;
-    if (user.token == null && user.role == 'funcionario') {
-      return ForbiddenPage();
-    } else {
-      return fromPage;
+  static Widget GuestAuth(Widget fromPage) {
+    UserStore userStore = UserSession.instance;
+    User user = userStore.getUser();
+    if (user != null) {
+      return ProductListPage();
     }
+    return fromPage;
   }
 
   @override
@@ -50,17 +49,18 @@ class Main extends StatelessWidget {
       // home: LoginPage(),
       onGenerateRoute: (settings) {
         if (settings.name == AppRoutes.USER_LIST) {
-          return MaterialPageRoute(builder: (context) => UserListPage());
+          return MaterialPageRoute(
+              builder: (_) => checkAuthenticate(UserListPage()));
         }
         if (settings.name == AppRoutes.LOGIN) {
-          return MaterialPageRoute(builder: (context) => LoginPage());
+          return MaterialPageRoute(builder: (_) => GuestAuth(LoginPage()));
         }
         if (settings.name == AppRoutes.REGISTER) {
-          return MaterialPageRoute(builder: (context) => RegisterPage());
+          return MaterialPageRoute(builder: (_) => GuestAuth(RegisterPage()));
         }
         if (settings.name == AppRoutes.PRODUCT_LIST) {
           return MaterialPageRoute(
-              builder: (context) => checkAuthenticate(ProductListPage()));
+              builder: (_) => checkAuthenticate(ProductListPage()));
         }
         // unknown route
         return MaterialPageRoute(builder: (_) => UnknownPage());

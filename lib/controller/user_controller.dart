@@ -1,15 +1,20 @@
 import 'package:ecommerce_frontend/Repository/UserRepository.dart';
 import 'package:ecommerce_frontend/model/User.dart';
+import 'package:ecommerce_frontend/shared/user_session.dart';
+import 'package:ecommerce_frontend/shared/user_store.dart';
 
 class UserController {
   UserRepository userRepository = UserRepository();
 
-  Future<List<User>> listall() {
+  Future<List<User>> listAll() {
     return userRepository.listAllUsers();
   }
 
   Future<User> login(String email, String password) async {
-    return await userRepository.login(email, password);
+    User user = await userRepository.login(email, password);
+    UserStore userStore = UserSession.instance;
+    userStore.setUser(user);
+    return user;
   }
 
   User getByID(String id) {

@@ -12,6 +12,7 @@ void main() {
   test("ListUsersFuncionando", () async {
     await userRepo.login("teste@teste.com", "12345");
     var users = await userRepo.listAllUsers();
+    print(users);
     expect(users[0].email, "teste@teste5.com");
   });
 }

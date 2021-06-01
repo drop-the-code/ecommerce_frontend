@@ -1,6 +1,8 @@
 import 'package:ecommerce_frontend/controller/user_controller.dart';
 import 'package:ecommerce_frontend/model/User.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
+import 'package:ecommerce_frontend/shared/user_session.dart';
+import 'package:ecommerce_frontend/shared/user_store.dart';
 import 'package:ecommerce_frontend/view/components/TextPasswordField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
@@ -68,7 +70,8 @@ class LoginPage extends StatelessWidget {
                               await userController.login(
                                   email.text, password.text);
                               print("VIEW");
-                              var token = await FlutterSession().get("token");
+                              UserStore userStore = UserSession.instance;
+                              String token = userStore.getToken();
                               print(token);
                               if (token != null) {
                                 print("inside navigator");
