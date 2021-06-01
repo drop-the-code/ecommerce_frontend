@@ -28,15 +28,16 @@ class Main extends StatelessWidget {
         // platform: TargetPlatform.iOS,
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/login',
-      // home: LoginPage(),
+      initialRoute: AppRoutes.LOGIN,
       onGenerateRoute: (settings) {
         if (settings.name == AppRoutes.USER_LIST) {
           return MaterialPageRoute(
+              settings: settings,
               builder: (_) => AuthMidlleware.authBasic(UserListPage()));
         }
         if (settings.name == AppRoutes.LOGIN) {
           return MaterialPageRoute(
+              settings: settings,
               builder: (_) => AuthMidlleware.guestBasic(LoginPage()));
         }
         if (settings.name == AppRoutes.REGISTER) {
@@ -47,6 +48,12 @@ class Main extends StatelessWidget {
           return MaterialPageRoute(
               builder: (_) => AuthMidlleware.authBasic(ProductListPage()));
         }
+
+        if (settings.name == AppRoutes.PRODUCT_FORM) {
+          var product = settings.arguments;
+          return MaterialPageRoute(builder: (context) => ProductForm(product));
+        }
+
         // unknown route
         return MaterialPageRoute(builder: (_) => UnknownPage());
       },
