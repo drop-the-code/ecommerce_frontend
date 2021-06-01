@@ -9,7 +9,7 @@ class ProductRepository {
       for (var u in response.data) {
         Product product = new Product(
             name: u["name"],
-            price: u["price"],
+            price: u["price"] as double,
             provider_cnpj: u["provider_cnpj"],
             description: u["description"]);
         products.add(product);
@@ -29,11 +29,11 @@ class ProductRepository {
         'description': product.description,
       });
       if (response.data != null) {
-        return true;
+        return false;
       }
     } catch (e) {
       print(e);
     }
-    return false;
+    return true;
   }
 }
