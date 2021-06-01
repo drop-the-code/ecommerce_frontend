@@ -60,7 +60,11 @@ class Main extends StatelessWidget {
         }
         if (settings.name == AppRoutes.PRODUCT_LIST) {
           return MaterialPageRoute(
-              builder: (context) => checkAuthenticate(ProductListPage()));
+              // builder: (context) => checkAuthenticate(ProductListPage()));
+              builder: (context) => ProductListPage());
+        }
+        if (settings.name == AppRoutes.PRODUCT_FORM) {
+          return MaterialPageRoute(builder: (context) => ProductForm());
         }
         // unknown route
         return MaterialPageRoute(builder: (_) => UnknownPage());

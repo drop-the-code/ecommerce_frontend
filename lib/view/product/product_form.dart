@@ -15,22 +15,20 @@ class ProductForm extends StatelessWidget {
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.save),
-              onPressed: () {
+              onPressed: () async {
                 //remove essa tela atual da pilha de telas, voltando para tela anterior
                 //_form.currentState.validate();
                 final isValid = _form.currentState.validate();
 
                 if (isValid) {
                   _form.currentState.save();
-
                   print(_formData['price'].runtimeType);
-
-                  // Product product = new Product(
-                  //     name: _formData['name'] as String,
-                  //     price: ((_formData['price']) as double) + .0,
-                  //     provider_cnpj: _formData['provider_cnpj'] as String,
-                  //     description: _formData['description'] as String);
-                  // bool error = new ProductController().put(product);
+                  Product product = new Product(
+                      name: _formData['name'] as String,
+                      price: ((_formData['price']) as double) + .0,
+                      provider_cnpj: _formData['provider_cnpj'] as String,
+                      description: _formData['description'] as String);
+                  bool error = await new ProductController().put(product);
                   Navigator.of(context).pop();
                 }
               })
