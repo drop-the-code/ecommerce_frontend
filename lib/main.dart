@@ -9,6 +9,7 @@ import 'package:ecommerce_frontend/view/user/ListUser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 
+import 'model/Product.dart';
 import 'model/User.dart';
 
 void main() {
@@ -64,7 +65,8 @@ class Main extends StatelessWidget {
               builder: (context) => ProductListPage());
         }
         if (settings.name == AppRoutes.PRODUCT_FORM) {
-          return MaterialPageRoute(builder: (context) => ProductForm());
+          var product = settings.arguments;
+          return MaterialPageRoute(builder: (context) => ProductForm(product));
         }
         // unknown route
         return MaterialPageRoute(builder: (_) => UnknownPage());
