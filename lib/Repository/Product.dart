@@ -41,8 +41,7 @@ class ProductRepository {
 
   Future<bool> delete(String id) async {
     try {
-      var response = await Dio()
-          .delete('http://localhost:3000/products', data: {'id': id});
+      var response = await Dio().delete('http://localhost:3000/products/' + id);
       if (response.data == null) {
         return false;
       }
