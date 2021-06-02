@@ -14,4 +14,12 @@ class ProductController {
     }
     return new ProductRepository().put(product);
   }
+
+  Future<bool> delete(String id) {
+    //print(product.toString());
+    if (id == null) {
+      return Future<bool>.value(false);
+    }
+    return new ProductRepository().delete(id);
+  }
 }

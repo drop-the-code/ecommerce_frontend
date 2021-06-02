@@ -76,7 +76,12 @@ class _ProductListPageState extends State<ProductListPage> {
                             IconButton(
                                 icon: new Icon(Icons.delete),
                                 color: Colors.red,
-                                onPressed: () {})
+                                onPressed: () async {
+                                  //print(data.name);
+                                  bool error = await new ProductController()
+                                      .delete(data.id);
+                                  print(error);
+                                })
                           ],
                         )),
                     onTap: () {

@@ -19,11 +19,10 @@ class _ProductFormState extends State<ProductForm> {
 
   void _loadFormData(Product product) {
     if (product != null) {
-      print(product.name);
       _formData['id'] = product.id;
       _formData['name'] = product.name;
       _formData['description'] = product.description;
-      _formData['price'] = product.price as String;
+      _formData['price'] = product.price.toString();
       _formData['provider_cnpj'] = product.provider_cnpj;
     }
   }
@@ -45,7 +44,6 @@ class _ProductFormState extends State<ProductForm> {
 
                 if (isValid) {
                   _form.currentState.save();
-                  print(_formData['price'].runtimeType);
                   Product product = new Product(
                       name: _formData['name'] as String,
                       price: ((_formData['price']) as double) + .0,
@@ -70,7 +68,7 @@ class _ProductFormState extends State<ProductForm> {
                   onSaved: (value) => _formData['name'] = value,
                 ),
                 TextFormField(
-                  initialValue: _formData['price'] as String,
+                  initialValue: _formData['price'],
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(labelText: 'Preço'),
                   onSaved: (value) =>

@@ -46,7 +46,8 @@ class Main extends StatelessWidget {
         }
         if (settings.name == AppRoutes.PRODUCT_LIST) {
           return MaterialPageRoute(
-              builder: (_) => AuthMidlleware.authBasic(ProductListPage()));
+              builder: (_) => ProductListPage());
+              // builder: (_) => AuthMidlleware.authBasic(ProductListPage()));
         }
 
         if (settings.name == AppRoutes.PRODUCT_FORM) {
