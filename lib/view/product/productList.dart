@@ -28,8 +28,39 @@ class ProductListPage extends StatefulWidget {
 
 class _ProductListPageState extends State<ProductListPage> {
   final Future<List<Product>> products = new ProductController().get_all();
+
   @override
   Widget build(BuildContext context) {
+    //User user;
+    List<Widget> buttonPerUser(data) {
+      if (true) {
+        return [
+          IconButton(
+              icon: new Icon(Icons.edit),
+              color: Colors.orange,
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed(AppRoutes.PRODUCT_FORM, arguments: data);
+              }),
+          IconButton(
+              icon: new Icon(Icons.delete),
+              color: Colors.red,
+              onPressed: () async {
+                //print(data.name);
+                bool error = await new ProductController().delete(data.id);
+                print(error);
+              })
+        ];
+      } else {
+        return [
+          IconButton(
+              icon: new Icon(Icons.add_shopping_cart),
+              color: Colors.orange,
+              onPressed: () {}),
+        ];
+      }
+    }
+
     return new Scaffold(
       appBar: new AppBar(
         //title: new Text(widget.title),
@@ -64,25 +95,7 @@ class _ProductListPageState extends State<ProductListPage> {
                     trailing: Container(
                         width: 100,
                         child: Row(
-                          children: <Widget>[
-                            IconButton(
-                                icon: new Icon(Icons.edit),
-                                color: Colors.orange,
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed(
-                                      AppRoutes.PRODUCT_FORM,
-                                      arguments: data);
-                                }),
-                            IconButton(
-                                icon: new Icon(Icons.delete),
-                                color: Colors.red,
-                                onPressed: () async {
-                                  //print(data.name);
-                                  bool error = await new ProductController()
-                                      .delete(data.id);
-                                  print(error);
-                                })
-                          ],
+                          children: buttonPerUser(data),
                         )),
                     onTap: () {
                       Navigator.push(

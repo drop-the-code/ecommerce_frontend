@@ -41,16 +41,20 @@ class _ProductFormState extends State<ProductForm> {
                 //remove essa tela atual da pilha de telas, voltando para tela anterior
                 //_form.currentState.validate();
                 final isValid = _form.currentState.validate();
-
                 if (isValid) {
                   _form.currentState.save();
                   Product product = new Product(
+                      id: _formData['id'] as String,
                       name: _formData['name'] as String,
                       price: ((_formData['price']) as double) + .0,
                       provider_cnpj: _formData['provider_cnpj'] as String,
                       description: _formData['description'] as String);
-                  bool error = await new ProductController().put(product);
-                  print(error);
+                  if (product.id == null) {
+                    bool error = await new ProductController().post(product);
+                  } else {
+                    bool error = await new ProductController().put(product);
+                  }
+                  // print(error);
                   Navigator.of(context).pop();
                 }
               })

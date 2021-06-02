@@ -21,10 +21,30 @@ class ProductRepository {
     return products;
   }
 
-  Future<bool> put(Product product) async {
+  Future<bool> post(Product product) async {
     try {
       var response = await Dio().post('http://localhost:3000/products', data: {
         'id': product.id,
+        'name': product.name,
+        'price': product.price,
+        'provider_cnpj': product.provider_cnpj,
+        'description': product.description,
+      });
+      if (response.data == null) {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return true;
+  }
+
+  Future<bool> put(Product product) async {
+    try {
+      var id = product.id;
+      var response = await Dio()
+          .put('http://localhost:3000/products/' + (id as String), data: {
+        'id': id,
         'name': product.name,
         'price': product.price,
         'provider_cnpj': product.provider_cnpj,
@@ -45,7 +65,6 @@ class ProductRepository {
       if (response.data == null) {
         return false;
       }
-      print(response.data);
     } catch (e) {
       print(e);
     }
