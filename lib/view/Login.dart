@@ -107,17 +107,18 @@ class LoginPage extends StatelessWidget {
                             Navigator.of(context)
                                 .pushReplacementNamed(AppRoutes.PRODUCT_LIST);
                           },
-                          label: Text("Registrar"),
+                          label: Text("Registrar (product)"),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: SignInButton(
-                          Buttons.Google,
+                        padding: const EdgeInsets.only(top: 20),
+                        child: OutlinedButton.icon(
+                          icon: Icon(Icons.person_add),
                           onPressed: () {
                             Navigator.of(context)
                                 .pushReplacementNamed(AppRoutes.CART);
                           },
+                          label: Text("cart"),
                         ),
                       ),
                     ],

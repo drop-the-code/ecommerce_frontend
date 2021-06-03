@@ -46,9 +46,29 @@ class _ProductListPageState extends State<ProductListPage> {
               icon: new Icon(Icons.delete),
               color: Colors.red,
               onPressed: () async {
-                //print(data.name);
-                bool error = await new ProductController().delete(data.id);
-                print(error);
+                showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                          title: Text('Excluir usuario'),
+                          content: Text('Tem certeza?'),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('Não'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            FlatButton(
+                              child: Text('Sim'),
+                              onPressed: () async {
+                                bool error = await new ProductController()
+                                    .delete(data.id);
+                                print(error);
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ));
               })
         ];
       } else {
@@ -117,7 +137,7 @@ class _ProductListPageState extends State<ProductListPage> {
   }
 }
 
-// card de detalhes de um produto
+// detalhes de um produto
 class DetailPage extends StatelessWidget {
   final Product product;
   //const ProductTile(this.product);
