@@ -110,6 +110,16 @@ class LoginPage extends StatelessWidget {
                           label: Text("Registrar"),
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: SignInButton(
+                          Buttons.Google,
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacementNamed(AppRoutes.CART);
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),

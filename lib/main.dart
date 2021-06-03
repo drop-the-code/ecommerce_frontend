@@ -1,9 +1,11 @@
 import 'package:ecommerce_frontend/middlewares/auth_middleware.dart';
+import 'package:ecommerce_frontend/model/Cart.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:ecommerce_frontend/shared/user_session.dart';
 import 'package:ecommerce_frontend/shared/user_store.dart';
 import 'package:ecommerce_frontend/view/Login.dart';
 import 'package:ecommerce_frontend/view/auth/Register.dart';
+import 'package:ecommerce_frontend/view/cart/show_cart.dart';
 import 'package:ecommerce_frontend/view/errors/forbidden.dart';
 import 'package:ecommerce_frontend/view/product/productList.dart';
 import 'package:ecommerce_frontend/view/product/product_form.dart';
@@ -45,14 +47,22 @@ class Main extends StatelessWidget {
               builder: (_) => AuthMidlleware.guestBasic(RegisterPage()));
         }
         if (settings.name == AppRoutes.PRODUCT_LIST) {
-          return MaterialPageRoute(
-              builder: (_) => ProductListPage());
-              // builder: (_) => AuthMidlleware.authBasic(ProductListPage()));
+          return MaterialPageRoute(builder: (_) => ProductListPage());
+          // builder: (_) => AuthMidlleware.authBasic(ProductListPage()));
         }
 
         if (settings.name == AppRoutes.PRODUCT_FORM) {
           var product = settings.arguments;
           return MaterialPageRoute(builder: (context) => ProductForm(product));
+        }
+
+        if (settings.name == AppRoutes.CART) {
+          return MaterialPageRoute(builder: (context) => Cart_show());
+        }
+
+        if (settings.name == AppRoutes.CART_FORM) {
+          var cart = settings.arguments;
+          return MaterialPageRoute(builder: (context) => ProductForm(cart));
         }
 
         // unknown route

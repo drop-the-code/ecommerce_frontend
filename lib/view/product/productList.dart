@@ -6,19 +6,19 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Produtos de demonstracao',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      //home: new ProductListPage(title: 'Products'),
-      home: new ProductListPage(),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return new MaterialApp(
+//       title: 'Produtos de demonstracao',
+//       theme: new ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       //home: new ProductListPage(title: 'Products'),
+//       home: new ProductListPage(),
+//     );
+//   }
+// }
 
 class ProductListPage extends StatefulWidget {
   //ProductListPage({Key key}) : super(key: key);
@@ -117,7 +117,7 @@ class _ProductListPageState extends State<ProductListPage> {
   }
 }
 
-// card que lista
+// card de detalhes de um produto
 class DetailPage extends StatelessWidget {
   final Product product;
   //const ProductTile(this.product);
