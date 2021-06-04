@@ -108,7 +108,7 @@ class LoginPage extends StatelessWidget {
                             //Navigator.of(context)
                             //  .pushReplacementNamed(AppRoutes.PRODUCT_LIST);
                           },
-                          label: Text("Registrar"),
+                          label: Text("Registrar (product)"),
                         ),
                       ),
                     ],
