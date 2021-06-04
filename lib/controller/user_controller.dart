@@ -1,7 +1,7 @@
-import 'package:ecommerce_frontend/Repository/UserRepository.dart';
+import 'package:ecommerce_frontend/repositories/UserRepository.dart';
 import 'package:ecommerce_frontend/model/User.dart';
 import 'package:ecommerce_frontend/shared/user_session.dart';
-import 'package:ecommerce_frontend/shared/user_store.dart';
+import 'package:ecommerce_frontend/shared/store/user_store.dart';
 
 class UserController {
   UserRepository userRepository = UserRepository();
@@ -17,8 +17,8 @@ class UserController {
     return user;
   }
 
-  User getByID(String id) {
-    User user = userRepository.getByID(id) as User;
+  Future<User> getByID(String id) async {
+    User user = await userRepository.getByID(id);
     return user;
   }
 }

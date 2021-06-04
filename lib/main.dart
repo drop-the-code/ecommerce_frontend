@@ -1,7 +1,7 @@
 import 'package:ecommerce_frontend/middlewares/auth_middleware.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:ecommerce_frontend/shared/user_session.dart';
-import 'package:ecommerce_frontend/shared/user_store.dart';
+import 'package:ecommerce_frontend/shared/store/user_store.dart';
 import 'package:ecommerce_frontend/view/Login.dart';
 import 'package:ecommerce_frontend/view/auth/Register.dart';
 import 'package:ecommerce_frontend/view/errors/forbidden.dart';
@@ -10,7 +10,6 @@ import 'package:ecommerce_frontend/view/product/product_form.dart';
 import 'package:ecommerce_frontend/view/errors/unknown.dart';
 import 'package:ecommerce_frontend/view/user/user_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_session/flutter_session.dart';
 
 import 'model/User.dart';
 
@@ -45,9 +44,8 @@ class Main extends StatelessWidget {
               builder: (_) => AuthMidlleware.guestBasic(RegisterPage()));
         }
         if (settings.name == AppRoutes.PRODUCT_LIST) {
-          return MaterialPageRoute(
-              builder: (_) => ProductListPage());
-              // builder: (_) => AuthMidlleware.authBasic(ProductListPage()));
+          return MaterialPageRoute(builder: (_) => ProductListPage());
+          // builder: (_) => AuthMidlleware.authBasic(ProductListPage()));
         }
 
         if (settings.name == AppRoutes.PRODUCT_FORM) {

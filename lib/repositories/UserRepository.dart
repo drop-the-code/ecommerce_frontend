@@ -52,7 +52,19 @@ class UserRepository {
   }
 
   Future<User> create(Map<String, dynamic> user) async {
-    Response response = await _dio.post("http://slocalhost:3000", data: user);
+    Response response = await _dio.post("http://localhost:3000/user",
+        data: user,
+        options: Options(headers: {
+          "Access-Control-Allow-Origin":
+              "*", // Required for CORS support to work
+          "Access-Control-Allow-Credentials":
+              true, // Required for cookies, authorization headers with HTTPS
+          "Access-Control-Allow-Headers":
+              "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+          "Access-Control-Allow-Methods": "POST, OPTIONS"
+        }));
+    print(response.data);
     if (response.statusCode == 200) return User.fromJson(response.data);
+    return User();
   }
 }
