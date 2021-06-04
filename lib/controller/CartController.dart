@@ -20,8 +20,11 @@ class CartController {
   // UpdateAddOneProduct
   Future<bool> addProduct(Product product, String clientId) async {
     Cart cart = await getCartByClientId(clientId);
-    print(cart.toString());
-    //var error = new CartRepository().addProduct(cart.id, product.id);
-    return null;
+    //print(cart.toString());
+    if (cart == null) {
+      return false;
+    }
+    var error = new CartRepository().addProduct(cart.id, product.id);
+    return true;
   }
 }

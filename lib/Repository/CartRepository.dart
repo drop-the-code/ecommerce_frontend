@@ -1,15 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:ecommerce_frontend/model/Cart.dart';
-import 'package:ecommerce_frontend/model/Product.dart';
+// import 'package:ecommerce_frontend/model/Product.dart';
 
 //updateAddOneProduct
 class CartRepository {
+  //o microservico cart, recebe 1 productId e o add ao array de productsId
   Future<bool> addProduct(String cartId, String productId) async {
     try {
       var response =
           await Dio().put('http://localhost:3000/carts/' + cartId, data: {
         'cartId': cartId,
-        'productListId': productId,
+        'productListId': [productId],
       });
       if (response.data == null) {
         return false;
@@ -24,7 +25,7 @@ class CartRepository {
     try {
       var response =
           await Dio().get('http://localhost:3000/carts?clientId=' + clientId);
-      var data = response.data;
+      var data = response.data[0];
       cart = new Cart(
           productListId: data["productListId"],
           id: data["id"].toString(),
