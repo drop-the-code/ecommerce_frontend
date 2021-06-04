@@ -1,46 +1,41 @@
+import 'package:ecommerce_frontend/controller/CartController.dart';
 import 'package:ecommerce_frontend/controller/Product.dart';
+import 'package:ecommerce_frontend/model/User.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
+import 'package:ecommerce_frontend/shared/user_session.dart';
+import 'package:ecommerce_frontend/shared/user_store.dart';
 import 'package:flutter/material.dart';
 import '../../model/Product.dart';
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return new MaterialApp(
-//       title: 'Produtos de demonstracao',
-//       theme: new ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       //home: new ProductListPage(title: 'Products'),
-//       home: new ProductListPage(),
-//     );
-//   }
-// }
-
 class ProductListPage extends StatefulWidget {
-  //ProductListPage({Key key}) : super(key: key);
   @override
   _ProductListPageState createState() => new _ProductListPageState();
 }
 
 class _ProductListPageState extends State<ProductListPage> {
   final Future<List<Product>> products = new ProductController().get_all();
-
+  //UserStore userStore = UserSession.instance;
+  //User user = userStore.getUser();
+  //print(user.role);
+  bool type_user = false;
   @override
   Widget build(BuildContext context) {
     //User user;
-    List<Widget> buttonPerUser(data) {
-      if (true) {
+    //String userId = user.id;
+    String userId = '2';
+    List<Widget> buttonPerUser(Product product) {
+      //if (product.user.type == 'funcionario') {
+      if (type_user) {
         return [
           IconButton(
               icon: new Icon(Icons.edit),
               color: Colors.orange,
               onPressed: () {
                 Navigator.of(context)
-                    .pushNamed(AppRoutes.PRODUCT_FORM, arguments: data);
+                    .pushNamed(AppRoutes.PRODUCT_FORM, arguments: product);
               }),
           IconButton(
               icon: new Icon(Icons.delete),
@@ -62,7 +57,7 @@ class _ProductListPageState extends State<ProductListPage> {
                               child: Text('Sim'),
                               onPressed: () async {
                                 bool error = await new ProductController()
-                                    .delete(data.id);
+                                    .delete(product.id);
                                 print(error);
                                 Navigator.of(context).pop();
                               },
@@ -75,24 +70,69 @@ class _ProductListPageState extends State<ProductListPage> {
         return [
           IconButton(
               icon: new Icon(Icons.add_shopping_cart),
+              color: Colors.green,
+              onPressed: () async {
+                String userId = '2'; //user.id
+                bool error =
+                    await new CartController().addProduct(product, userId);
+                print(error);
+              }),
+        ];
+      }
+    }
+
+    List<Widget> meunuButtonPerUser() {
+      if (type_user) {
+        return [
+          IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                //Coloca tela form por cima, e depois remove da pilha de telas
+                Navigator.of(context).pushNamed(AppRoutes.PRODUCT_FORM);
+              }),
+        ];
+      } else {
+        return [
+          IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {
+                Navigator.of(context).pushNamed(AppRoutes.CART);
+              }),
+          IconButton(
+              icon: new Icon(Icons.shop),
               color: Colors.orange,
-              onPressed: () {}),
+              onPressed: () async {
+                showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                          title: Text('Finalizar compra'),
+                          content: Text('Tem certeza?'),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('Não'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            FlatButton(
+                              child: Text('Sim'),
+                              onPressed: () async {
+                                //bool error = await new ProductController().finalShop(product.id);
+                                //print(error);
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ));
+              })
         ];
       }
     }
 
     return new Scaffold(
       appBar: new AppBar(
-        //title: new Text(widget.title),
-        title: new Text('produtoss'),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                //Coloca tela form por cima, e depois remove da pilha de telas
-                Navigator.of(context).pushNamed(AppRoutes.PRODUCT_FORM);
-              })
-        ],
+        title: new Text('Produtos'),
+        actions: meunuButtonPerUser(),
         //actions: <Widget>[IconButton(icon: Icon(Icons.delete),onPressed: () => confirmDelete(context),),],
       ),
       body: Container(
@@ -149,7 +189,31 @@ class DetailPage extends StatelessWidget {
           title: Text(product.name),
         ),
         body: Container(
-          child: Text(product.price.toString()),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Descrição: ${product.description}",
+                style: TextStyle(fontSize: 20),
+              ),
+              Padding(
+                padding: EdgeInsets.all(10),
+              ),
+              Text(
+                "Preço: ${product.price}",
+                style: TextStyle(fontSize: 20),
+              ),
+              Padding(
+                padding: EdgeInsets.all(10),
+              ),
+              Text(
+                "CNPJ do fornecedor: ${product.provider_cnpj}",
+                style: TextStyle(fontSize: 20),
+              ),
+            ],
+          ),
         ));
   }
 }
+
+//Text(product.price.toString()),

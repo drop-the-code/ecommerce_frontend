@@ -26,7 +26,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  final Future<Cart> cart = new CartController().get_cart('1');
+  final Future<Cart> cart = new CartController().getCart('1');
 
   @override
   Widget build(BuildContext context) {
@@ -49,22 +49,38 @@ class _CartPageState extends State<CartPage> {
             if (snapshot.hasData) {
               var data = snapshot.data;
               return Card(
-                  child: ListTile(
-                title: Text(
-                  data.status.toString(),
-                  style: TextStyle(fontSize: 18),
+                  child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "ID do cliente: ${data.clientId}",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                    ),
+                    Text(
+                      "Ultima atualização: ${data.updatedAt}",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                    ),
+                    Text(
+                      "Status: ${data.status}",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                    ),
+                    Text(
+                      "Lista de produtos: ${data.productListId}",
+                      //Text(cart.productListId.toString()),
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
                 ),
-                subtitle: Text("status: " + data.status.toString()),
-                trailing: Container(
-                    width: 100,
-                    child: Row(
-                      children: [
-                        IconButton(
-                            icon: new Icon(Icons.add_shopping_cart),
-                            color: Colors.red,
-                            onPressed: () {}),
-                      ],
-                    )),
               ));
             } else {
               return Container(child: Center(child: Text("Loading...")));
@@ -73,21 +89,5 @@ class _CartPageState extends State<CartPage> {
         ),
       ),
     );
-  }
-}
-
-// card de detalhes de um cart
-class DetailPage extends StatelessWidget {
-  final Cart cart;
-  DetailPage(this.cart);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Seu carrinho"),
-        ),
-        body: Container(
-          child: Text(cart.productListId.toString()),
-        ));
   }
 }

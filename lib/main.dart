@@ -5,7 +5,7 @@ import 'package:ecommerce_frontend/shared/user_session.dart';
 import 'package:ecommerce_frontend/shared/user_store.dart';
 import 'package:ecommerce_frontend/view/Login.dart';
 import 'package:ecommerce_frontend/view/auth/Register.dart';
-import 'package:ecommerce_frontend/view/cart/show_cart.dart';
+import 'package:ecommerce_frontend/view/cart/showCart.dart';
 import 'package:ecommerce_frontend/view/errors/forbidden.dart';
 import 'package:ecommerce_frontend/view/product/productList.dart';
 import 'package:ecommerce_frontend/view/product/product_form.dart';
