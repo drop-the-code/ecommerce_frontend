@@ -3,7 +3,6 @@ import 'package:ecommerce_frontend/controller/Product.dart';
 import 'package:ecommerce_frontend/model/User.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:ecommerce_frontend/shared/user_session.dart';
-import 'package:ecommerce_frontend/shared/user_store.dart';
 import 'package:flutter/material.dart';
 import '../../model/Product.dart';
 import 'dart:async';

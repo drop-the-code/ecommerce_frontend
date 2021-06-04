@@ -1,6 +1,6 @@
 // import 'package:ecommerce_frontend/view/cart/show_cart.dart';
 
-import 'package:ecommerce_frontend/Repository/CartRepository.dart';
+import 'package:ecommerce_frontend/repositories/CartRepository.dart';
 import 'package:ecommerce_frontend/model/Cart.dart';
 import 'package:ecommerce_frontend/model/Product.dart';
 
