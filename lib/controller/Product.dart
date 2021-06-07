@@ -1,4 +1,4 @@
-import 'package:ecommerce_frontend/Repository/Product.dart';
+import 'package:ecommerce_frontend/repositories/Product.dart';
 import 'package:ecommerce_frontend/model/Product.dart';
 
 class ProductController {

@@ -1,5 +1,4 @@
 //import 'package:flutter/material.dart';
-import 'package:ecommerce_frontend/Repository/Product.dart';
 
 class Product {
   final String id;

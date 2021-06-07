@@ -2,7 +2,7 @@ import 'package:ecommerce_frontend/controller/user_controller.dart';
 import 'package:ecommerce_frontend/model/User.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:ecommerce_frontend/shared/user_session.dart';
-import 'package:ecommerce_frontend/shared/user_store.dart';
+import 'package:ecommerce_frontend/shared/store/user_store.dart';
 import 'package:ecommerce_frontend/view/components/TextPasswordField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
@@ -103,7 +103,6 @@ class LoginPage extends StatelessWidget {
                                   vertical: 15, horizontal: 64)),
                           icon: Icon(Icons.person_add),
                           onPressed: () {
-                            //Navigator.of(context).pushReplacementNamed('/listProduto'); /**  resgister */
                             Navigator.of(context)
                                 .pushReplacementNamed(AppRoutes.REGISTER);
                           },

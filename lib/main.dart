@@ -3,7 +3,7 @@ import 'package:ecommerce_frontend/model/Cart.dart';
 import 'package:ecommerce_frontend/model/Order.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:ecommerce_frontend/shared/user_session.dart';
-import 'package:ecommerce_frontend/shared/user_store.dart';
+import 'package:ecommerce_frontend/shared/store/user_store.dart';
 import 'package:ecommerce_frontend/view/Login.dart';
 import 'package:ecommerce_frontend/view/auth/Register.dart';
 import 'package:ecommerce_frontend/view/cart/showCart.dart';
@@ -13,7 +13,6 @@ import 'package:ecommerce_frontend/view/product/product_form.dart';
 import 'package:ecommerce_frontend/view/errors/unknown.dart';
 import 'package:ecommerce_frontend/view/user/user_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_session/flutter_session.dart';
 
 import 'model/User.dart';
 
