@@ -105,9 +105,9 @@ class LoginPage extends StatelessWidget {
                           onPressed: () {
                             //Navigator.of(context).pushReplacementNamed('/listProduto'); /**  resgister */
                             Navigator.of(context)
-                                .pushReplacementNamed(AppRoutes.PRODUCT_LIST);
+                                .pushReplacementNamed(AppRoutes.REGISTER);
                           },
-                          label: Text("Registrar (product)"),
+                          label: Text("Registrar"),
                         ),
                       ),
                     ],

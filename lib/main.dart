@@ -1,5 +1,6 @@
 import 'package:ecommerce_frontend/middlewares/auth_middleware.dart';
 import 'package:ecommerce_frontend/model/Cart.dart';
+import 'package:ecommerce_frontend/model/Order.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:ecommerce_frontend/shared/user_session.dart';
 import 'package:ecommerce_frontend/shared/user_store.dart';
@@ -47,13 +48,20 @@ class Main extends StatelessWidget {
               builder: (_) => AuthMidlleware.guestBasic(RegisterPage()));
         }
         if (settings.name == AppRoutes.PRODUCT_LIST) {
-          return MaterialPageRoute(builder: (_) => ProductListPage());
-          // builder: (_) => AuthMidlleware.authBasic(ProductListPage()));
+          //return MaterialPageRoute(builder: (_) => ProductListPage());
+          //builder: (_) => AuthMidlleware.authBasic(ProductListPage()));
+          return MaterialPageRoute(
+              builder: (_) => AuthMidlleware.guestBasic(ProductListPage()));
         }
 
         if (settings.name == AppRoutes.PRODUCT_FORM) {
           var product = settings.arguments;
           return MaterialPageRoute(builder: (context) => ProductForm(product));
+        }
+
+        if (settings.name == AppRoutes.ORDER) {
+          var order = settings.arguments;
+          return MaterialPageRoute(builder: (context) => ProductForm(order));
         }
 
         if (settings.name == AppRoutes.CART) {

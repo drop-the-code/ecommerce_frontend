@@ -9,7 +9,6 @@ class CartRepository {
     try {
       var response =
           await Dio().put('http://localhost:3000/carts/' + cartId, data: {
-        'cartId': cartId,
         'productListId': [productId],
       });
       if (response.data == null) {

@@ -17,10 +17,16 @@ class ProductListPage extends StatefulWidget {
 
 class _ProductListPageState extends State<ProductListPage> {
   final Future<List<Product>> products = new ProductController().get_all();
-  //UserStore userStore = UserSession.instance;
-  //User user = userStore.getUser();
+  UserStore userStore = UserSession.instance;
+  User user;
+  @override
+  void initState() {
+    super.initState();
+    this.user = userStore.getUser();
+  }
+
   //print(user.role);
-  bool type_user = false;
+
   @override
   Widget build(BuildContext context) {
     //User user;
@@ -28,7 +34,7 @@ class _ProductListPageState extends State<ProductListPage> {
     String userId = '2';
     List<Widget> buttonPerUser(Product product) {
       //if (product.user.type == 'funcionario') {
-      if (type_user) {
+      if (this.user.role == "funcionario") {
         return [
           IconButton(
               icon: new Icon(Icons.edit),
@@ -72,7 +78,6 @@ class _ProductListPageState extends State<ProductListPage> {
               icon: new Icon(Icons.add_shopping_cart),
               color: Colors.green,
               onPressed: () async {
-                String userId = '2'; //user.id
                 bool error =
                     await new CartController().addProduct(product, userId);
                 print(error);
@@ -82,7 +87,7 @@ class _ProductListPageState extends State<ProductListPage> {
     }
 
     List<Widget> meunuButtonPerUser() {
-      if (type_user) {
+      if (this.user.role == "funcionario") {
         return [
           IconButton(
               icon: Icon(Icons.add),
@@ -99,8 +104,8 @@ class _ProductListPageState extends State<ProductListPage> {
                 Navigator.of(context).pushNamed(AppRoutes.CART);
               }),
           IconButton(
-              icon: new Icon(Icons.shop),
-              color: Colors.orange,
+              icon: new Icon(Icons.attach_money),
+              color: Colors.yellowAccent,
               onPressed: () async {
                 showDialog(
                     context: context,

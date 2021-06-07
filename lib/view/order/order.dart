@@ -1,32 +1,27 @@
-import 'package:ecommerce_frontend/controller/CartController.dart';
+import 'package:ecommerce_frontend/model/Order.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../model/Cart.dart';
-import 'dart:async';
-import 'package:dio/dio.dart';
-import 'dart:convert';
 
-class Cart_show extends StatelessWidget {
+class PaymentShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Produtos de demonstracao',
+      title: 'Pagamento',
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new CartPage(),
+      home: new PayPage(),
     );
   }
 }
 
-class CartPage extends StatefulWidget {
+class PayPage extends StatefulWidget {
   @override
-  _CartPageState createState() => new _CartPageState();
+  _PayPageState createState() => new _PayPageState();
 }
 
-class _CartPageState extends State<CartPage> {
-  final Future<Cart> cart = new CartController().getCart('1');
-
+class _PayPageState extends State<PayPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -34,16 +29,14 @@ class _CartPageState extends State<CartPage> {
         //title: new Text(widget.title),
         title: new Text('Carrinho'),
         actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                Navigator.of(context).pushNamed(AppRoutes.PRODUCT_LIST);
-              })
+          IconButton(icon: Icon(Icons.payment), onPressed: () {})
         ],
       ),
       body: Container(
-        child: FutureBuilder(
-          future: cart,
+        child: StreamBuilder<Order>(
+          //future: order,
+          //stream: order,
+          //streamController: ,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               var data = snapshot.data;
@@ -53,28 +46,14 @@ class _CartPageState extends State<CartPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "ID do cliente: ${data.clientId}",
+                      "ID do cliente: ${data.client.id}",
                       style: TextStyle(fontSize: 20),
                     ),
                     Padding(
                       padding: EdgeInsets.all(10),
                     ),
                     Text(
-                      "Ultima atualização: ${data.updatedAt}",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                    ),
-                    Text(
-                      "Status: ${data.status}",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                    ),
-                    Text(
-                      "Lista de produtos: ${data.productListId}",
+                      "Lista de produtos: ${data.cart}",
                       //Text(cart.productListId.toString()),
                       style: TextStyle(fontSize: 20),
                     ),
