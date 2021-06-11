@@ -26,7 +26,6 @@ class UserRepository {
         return user;
       } else
         print("fora if 200");
-
       return User();
     } catch (e) {
       print(e);

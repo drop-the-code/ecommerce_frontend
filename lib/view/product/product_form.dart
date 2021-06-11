@@ -50,9 +50,9 @@ class _ProductFormState extends State<ProductForm> {
                       provider_cnpj: _formData['provider_cnpj'] as String,
                       description: _formData['description'] as String);
                   if (product.id == null) {
-                    bool error = await new ProductController().post(product);
+                    await new ProductController().post(product);
                   } else {
-                    bool error = await new ProductController().put(product);
+                    await new ProductController().put(product);
                   }
                   // print(error);
                   Navigator.of(context).pop();

@@ -4,7 +4,7 @@ import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:ecommerce_frontend/shared/user_session.dart';
 import 'package:ecommerce_frontend/shared/store/user_store.dart';
 import 'package:ecommerce_frontend/view/Login.dart';
-import 'package:ecommerce_frontend/view/auth/Register.dart';
+import 'package:ecommerce_frontend/view/auth/RegisterClient.dart';
 import 'package:ecommerce_frontend/view/cart/showCart.dart';
 import 'package:ecommerce_frontend/view/errors/forbidden.dart';
 import 'package:ecommerce_frontend/view/product/productList.dart';

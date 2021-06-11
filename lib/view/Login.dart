@@ -71,9 +71,8 @@ class LoginPage extends StatelessWidget {
                                   email.text, password.text);
                               print("VIEW");
                               UserStore userStore = UserSession.instance;
-                              String token = userStore.getToken();
-                              print(token);
-                              if (token != null) {
+                              User user = userStore.getUser();
+                              if (user != null) {
                                 print("inside navigator");
                                 Navigator.of(context).pushReplacementNamed(
                                     AppRoutes.PRODUCT_LIST);
@@ -89,13 +88,6 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: SignInButton(
-                          Buttons.Google,
-                          onPressed: () {},
-                        ),
-                      ),
-                      Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: OutlinedButton.icon(
                           style: ElevatedButton.styleFrom(
@@ -108,7 +100,7 @@ class LoginPage extends StatelessWidget {
                             //Navigator.of(context)
                             //  .pushReplacementNamed(AppRoutes.PRODUCT_LIST);
                           },
-                          label: Text("Registrar (product)"),
+                          label: Text("Registrar"),
                         ),
                       ),
                     ],
