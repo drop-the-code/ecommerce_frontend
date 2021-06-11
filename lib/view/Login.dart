@@ -95,10 +95,8 @@ class LoginPage extends StatelessWidget {
                                   vertical: 15, horizontal: 64)),
                           icon: Icon(Icons.person_add),
                           onPressed: () {
-                            Navigator.of(context).pushReplacementNamed(
-                                AppRoutes.REGISTER); /**  resgister */
-                            //Navigator.of(context)
-                            //  .pushReplacementNamed(AppRoutes.PRODUCT_LIST);
+                            Navigator.of(context)
+                                .pushReplacementNamed(AppRoutes.REGISTER);
                           },
                           label: Text("Registrar"),
                         ),
