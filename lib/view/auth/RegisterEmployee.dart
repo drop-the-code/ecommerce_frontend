@@ -2,6 +2,7 @@ import 'package:ecommerce_frontend/controller/user_controller.dart';
 import 'package:ecommerce_frontend/model/User.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:ecommerce_frontend/validators/basic_validator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_frontend/view/components/TextPasswordField.dart';
 
@@ -94,10 +95,25 @@ class _RegisterEmployeePageState extends State<RegisterEmployeePage> {
                             icon: Icon(Icons.email),
                           )),
                       TextFormField(
+                          controller: name,
                           validator: BasicValidator.validBasic,
                           decoration: InputDecoration(
                               labelText: "Digite  seu nome",
                               icon: Icon(Icons.person))),
+                      TextFormField(
+                          controller: address,
+                          validator: BasicValidator.validBasic,
+                          decoration: InputDecoration(
+                            labelText: "Digite o endereço",
+                            icon: Icon(Icons.home),
+                          )),
+                      TextFormField(
+                          controller: cpf,
+                          validator: BasicValidator.validBasic,
+                          decoration: InputDecoration(
+                            labelText: "Digite o CPF",
+                            icon: Icon(Icons.credit_card),
+                          )),
                       TextPasswordField(
                         validator: _validPassword,
                         controller: password,
@@ -119,25 +135,33 @@ class _RegisterEmployeePageState extends State<RegisterEmployeePage> {
                           icon: Icon(Icons.login),
                           onPressed: () async {
                             if (_formKey.currentState.validate()) {
+                              Map<String, dynamic> data = {
+                                "name": name.text,
+                                "email": email.text,
+                                "address": address.text,
+                                "card": {
+                                  "name": "",
+                                  "number": "",
+                                  "securityCode": "",
+                                  "validThru": "",
+                                },
+                                "role": "funcionario",
+                                "cpf": cpf.text,
+                                "password": password.text
+                              };
                               try {
-                                Map<String, dynamic> data = {
-                                  "name": name.text,
-                                  "email": email.text,
-                                  "address": address.text,
-                                  "card": {
-                                    "name": "",
-                                    "number": "",
-                                    "securityCode": "",
-                                    "validThru": "",
-                                  },
-                                  "role": "funcionario",
-                                  "cpf": cpf.text,
-                                  "password": password.text
-                                };
-                                await userController.create(data);
-                                Navigator.of(context)
-                                    .pushReplacementNamed(AppRoutes.USER_LIST);
+                                User user = await userController.create(data);
+                                if (user == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Erro ao cadastrar usuario')));
+                                } else {
+                                  Navigator.of(context).pushReplacementNamed(
+                                      AppRoutes.USER_LIST);
+                                }
                               } catch (e) {
+                                print(e);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                         content:

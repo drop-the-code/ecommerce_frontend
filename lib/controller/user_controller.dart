@@ -24,7 +24,6 @@ class UserController {
 
   Future<User> create(Map<String, dynamic> data) async {
     User user = await userRepository.create(data);
-    print(user.name);
     return user;
   }
 
