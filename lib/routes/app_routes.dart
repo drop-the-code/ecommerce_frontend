@@ -9,4 +9,5 @@ class AppRoutes {
   static const CART_FORM = '/cart/create';
   static const FORBIDDEN = '/erro/403';
   static const UNKNOWN = 'erro/404';
+  static const USER_FUNCTIONARY = '/user/functionary';
 }

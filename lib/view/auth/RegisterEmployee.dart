@@ -1,5 +1,6 @@
 import 'package:ecommerce_frontend/controller/user_controller.dart';
 import 'package:ecommerce_frontend/model/User.dart';
+import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:ecommerce_frontend/validators/basic_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_frontend/view/components/TextPasswordField.dart';
@@ -16,20 +17,21 @@ class RegisterEmployeePage extends StatefulWidget {
 
 class _RegisterEmployeePageState extends State<RegisterEmployeePage> {
   final TextEditingController email = new TextEditingController();
+  final TextEditingController cpf = new TextEditingController();
 
   final TextEditingController name = new TextEditingController();
 
   final TextEditingController password = new TextEditingController();
+  final TextEditingController address = TextEditingController();
 
   final TextEditingController passwordVerification =
       new TextEditingController();
+  UserController userController = UserController();
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
-    if (widget.id != "")
-      UserController().getByID(widget.id).then((value) => widget.user = value);
     super.initState();
   }
 
@@ -80,7 +82,7 @@ class _RegisterEmployeePageState extends State<RegisterEmployeePage> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 30.0),
                         child: Text(
-                          "Acesse a  plataforma",
+                          "Registrar Novo Funcionario",
                           style: TextStyle(fontSize: 20),
                         ),
                       ),
@@ -115,13 +117,32 @@ class _RegisterEmployeePageState extends State<RegisterEmployeePage> {
                               padding: EdgeInsets.symmetric(
                                   vertical: 15, horizontal: 80)),
                           icon: Icon(Icons.login),
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('INSIDE IF')));
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('OUTSIDE IF')));
+                              try {
+                                Map<String, dynamic> data = {
+                                  "name": name.text,
+                                  "email": email.text,
+                                  "address": address.text,
+                                  "card": {
+                                    "name": "",
+                                    "number": "",
+                                    "securityCode": "",
+                                    "validThru": "",
+                                  },
+                                  "role": "funcionario",
+                                  "cpf": cpf.text,
+                                  "password": password.text
+                                };
+                                await userController.create(data);
+                                Navigator.of(context)
+                                    .pushReplacementNamed(AppRoutes.USER_LIST);
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content:
+                                            Text('Erro ao cadastrar usuario')));
+                              }
                             }
                           },
                           label: Text("Cadastrar"),
@@ -133,10 +154,10 @@ class _RegisterEmployeePageState extends State<RegisterEmployeePage> {
                           style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(
                                   vertical: 15, horizontal: 64)),
-                          icon: Icon(Icons.person_add),
+                          icon: Icon(Icons.backspace),
                           onPressed: () {
                             Navigator.of(context)
-                                .pushReplacementNamed('/login');
+                                .pushReplacementNamed(AppRoutes.USER_LIST);
                           },
                           label: Text("Voltar"),
                         ),

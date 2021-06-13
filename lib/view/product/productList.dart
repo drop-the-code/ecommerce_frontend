@@ -29,9 +29,9 @@ class _ProductListPageState extends State<ProductListPage> {
 
   @override
   Widget build(BuildContext context) {
-    //User user;
-    //String userId = user.id;
-    String userId = '2';
+    UserStore userStore = UserSession.instance;
+    User user = userStore.getUser();
+    String userId = user.id;
     List<Widget> buttonPerUser(Product product) {
       //if (product.user.type == 'funcionario') {
       if (this.user.role == "funcionario") {
@@ -89,6 +89,11 @@ class _ProductListPageState extends State<ProductListPage> {
     List<Widget> meunuButtonPerUser() {
       if (this.user.role == "funcionario") {
         return [
+          IconButton(
+            icon: Icon(Icons.person),
+            onPressed: () =>
+                Navigator.of(context).pushReplacementNamed(AppRoutes.USER_LIST),
+          ),
           IconButton(
               icon: Icon(Icons.add),
               onPressed: () {

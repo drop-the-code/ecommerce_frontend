@@ -27,4 +27,8 @@ class UserController {
     print(user.name);
     return user;
   }
+
+  Future<User> delete(String id) async {
+    return await userRepository.delete(id);
+  }
 }

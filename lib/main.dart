@@ -6,6 +6,7 @@ import 'package:ecommerce_frontend/shared/user_session.dart';
 import 'package:ecommerce_frontend/shared/store/user_store.dart';
 import 'package:ecommerce_frontend/view/Login.dart';
 import 'package:ecommerce_frontend/view/auth/RegisterClient.dart';
+import 'package:ecommerce_frontend/view/auth/RegisterEmployee.dart';
 import 'package:ecommerce_frontend/view/cart/showCart.dart';
 import 'package:ecommerce_frontend/view/errors/forbidden.dart';
 import 'package:ecommerce_frontend/view/order/order.dart';
@@ -46,6 +47,9 @@ class Main extends StatelessWidget {
         if (settings.name == AppRoutes.REGISTER) {
           return MaterialPageRoute(
               builder: (_) => AuthMidlleware.guestBasic(RegisterPage()));
+        }
+        if (settings.name == AppRoutes.USER_FUNCTIONARY) {
+          return MaterialPageRoute(builder: (_) => RegisterEmployeePage());
         }
         if (settings.name == AppRoutes.PRODUCT_LIST) {
           //return MaterialPageRoute(builder: (_) => ProductListPage());
