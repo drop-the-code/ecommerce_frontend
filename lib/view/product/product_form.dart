@@ -1,4 +1,4 @@
-import 'package:ecommerce_frontend/controller/Product.dart';
+import 'package:ecommerce_frontend/controller/ProductController.dart';
 import 'package:ecommerce_frontend/model/Product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

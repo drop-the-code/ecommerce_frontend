@@ -21,6 +21,28 @@ class ProductRepository {
     return products;
   }
 
+  Future<Product> getById(productId) async {
+    //SelectByID no microServico
+    Product product;
+    try {
+      var response = await Dio().get('http://localhost:3000/products',
+          queryParameters: {'id': productId});
+      //await Dio().get('http://localhost:3000/products?id=' + productId);
+      //await Dio().get('http://localhost:3000/products/' + productId);
+      //print(response.data.toString());
+      var data = response.data;
+      product = new Product(
+          id: data.id,
+          name: data.name,
+          description: data.description,
+          price: data.price,
+          provider_cnpj: data.provider_cnpj);
+    } catch (e) {
+      print(e);
+    }
+    return product;
+  }
+
   Future<bool> post(Product product) async {
     try {
       var response = await Dio().post('http://localhost:3000/products', data: {

@@ -8,6 +8,7 @@ import 'package:ecommerce_frontend/view/Login.dart';
 import 'package:ecommerce_frontend/view/auth/Register.dart';
 import 'package:ecommerce_frontend/view/cart/showCart.dart';
 import 'package:ecommerce_frontend/view/errors/forbidden.dart';
+import 'package:ecommerce_frontend/view/order.dart/order.dart';
 import 'package:ecommerce_frontend/view/product/productList.dart';
 import 'package:ecommerce_frontend/view/product/product_form.dart';
 import 'package:ecommerce_frontend/view/errors/unknown.dart';
@@ -70,6 +71,12 @@ class Main extends StatelessWidget {
         if (settings.name == AppRoutes.CART_FORM) {
           var cart = settings.arguments;
           return MaterialPageRoute(builder: (context) => ProductForm(cart));
+        }
+
+        if (settings.name == AppRoutes.ORDER) {
+          var order = settings.arguments;
+          return MaterialPageRoute(
+              builder: (context) => OrderStatefulWidget(order));
         }
 
         // unknown route

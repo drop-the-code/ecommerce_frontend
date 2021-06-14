@@ -1,5 +1,5 @@
 import 'package:ecommerce_frontend/controller/CartController.dart';
-import 'package:ecommerce_frontend/controller/Product.dart';
+import 'package:ecommerce_frontend/controller/ProductController.dart';
 import 'package:ecommerce_frontend/model/User.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:ecommerce_frontend/shared/store/user_store.dart';

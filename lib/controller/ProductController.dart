@@ -29,4 +29,18 @@ class ProductController {
     }
     return new ProductRepository().delete(id);
   }
+
+  List<Product> getProductsByCart(List<String> productsIDs) {
+    List<Product> products;
+    if (productsIDs == null) {
+      return products;
+    }
+    for (final productId in productsIDs) {
+      Product product = new ProductRepository().getById(productId);
+      if (product != null) {
+        products.add(product);
+      }
+    }
+    return products;
+  }
 }
