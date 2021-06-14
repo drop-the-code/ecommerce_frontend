@@ -5,12 +5,13 @@ UserRepository userRepo = UserRepository();
 
 void main() {
   test("Login", () async {
-    var user = await userRepo.login("teste@teste.com", "12345");
-    expect(user.email, "teste@teste.com");
+    var user =
+        await userRepo.login("wilson@manjaro.com", "doteiroquenaousamanjaro");
+    expect(user.email, "wilson@manjaro.com");
   });
 
   test("ListUsersFuncionando", () async {
-    await userRepo.login("teste@teste.com", "12345");
+    await userRepo.login("wilson@manjaro.com", "doteiroquenaousamanjaro");
     var users = await userRepo.listAllUsers();
     print(users);
     expect(users[0].email, "teste@teste5.com");

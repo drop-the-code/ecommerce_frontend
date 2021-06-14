@@ -21,4 +21,13 @@ class UserController {
     User user = await userRepository.getByID(id);
     return user;
   }
+
+  Future<User> create(Map<String, dynamic> data) async {
+    User user = await userRepository.create(data);
+    return user;
+  }
+
+  Future<User> delete(String id) async {
+    return await userRepository.delete(id);
+  }
 }

@@ -1,4 +1,6 @@
+import 'package:ecommerce_frontend/controller/user_controller.dart';
 import 'package:ecommerce_frontend/model/User.dart';
+import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:ecommerce_frontend/shared/store/user_store.dart';
 import 'package:ecommerce_frontend/shared/user_session.dart';
 import 'package:ecommerce_frontend/validators/basic_validator.dart';
@@ -15,6 +17,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  UserController userController = UserController();
   final TextEditingController email = TextEditingController();
 
   final TextEditingController name = TextEditingController();
@@ -29,7 +32,15 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController nameCard = TextEditingController();
   final TextEditingController validThru = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
+  int currentStep = 0;
+  bool complete = false;
+  var stepStateLogin = StepState.indexed;
+  var stepStateCard = StepState.indexed;
+
+  List<GlobalKey<FormState>> _formKeys = [
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>()
+  ];
 
   bool validPasswordAndPasswordVerificationTheSame(String value) {
     return ((value.length > 0 && passwordVerification.text.length > 0) &&
@@ -56,136 +67,166 @@ class _RegisterPageState extends State<RegisterPage> {
     return null;
   }
 
+  String messageShowUserWhenRegisterIsComplete =
+      "Usuario criado com sucesso :)";
+
   @override
   Widget build(BuildContext context) {
+    List<Step> steps = [
+      Step(
+          title: Text("Novo usuario"),
+          isActive: true,
+          subtitle: Text("Cadastro de usuario"),
+          state: stepStateLogin,
+          content: Form(
+            key: _formKeys[0],
+            child: Column(
+              children: [
+                TextFormField(
+                    controller: email,
+                    validator: BasicValidator.validEmail,
+                    decoration: InputDecoration(
+                      labelText: "Digite o email",
+                      icon: Icon(Icons.email),
+                    )),
+                TextFormField(
+                    controller: name,
+                    validator: BasicValidator.validBasic,
+                    decoration: InputDecoration(
+                        labelText: "Digite  seu nome",
+                        icon: Icon(Icons.person))),
+                TextFormField(
+                    controller: cpf,
+                    validator: BasicValidator.validBasic,
+                    decoration: InputDecoration(
+                        labelText: "Digite  seu CPF",
+                        icon: Icon(Icons.person))),
+                TextFormField(
+                    controller: address,
+                    validator: BasicValidator.validBasic,
+                    decoration: InputDecoration(
+                        labelText: "Digite  seu endereço",
+                        icon: Icon(Icons.house))),
+                TextPasswordField(
+                  validator: _validPassword,
+                  controller: password,
+                  obscureText: true,
+                  labelText: "Digite sua senha",
+                ),
+                TextPasswordField(
+                  validator: _validPasswordVerification,
+                  controller: passwordVerification,
+                  obscureText: true,
+                  labelText: "Digite sua senha novamente",
+                ),
+              ],
+            ),
+          )),
+      Step(
+          title: Text("Cadastrar Cartão"),
+          isActive: true,
+          state: stepStateCard,
+          content: Form(
+            key: _formKeys[1],
+            child: Column(
+              children: [
+                TextFormField(
+                    controller: securityCode,
+                    decoration: InputDecoration(
+                        labelText: "Digite o CVV do cartão",
+                        icon: Icon(Icons.security))),
+                TextFormField(
+                    controller: number,
+                    decoration: InputDecoration(
+                        labelText: "Digite o numero do cartao",
+                        icon: Icon(Icons.credit_card_rounded))),
+                TextFormField(
+                    controller: nameCard,
+                    decoration: InputDecoration(
+                        labelText: "Digite o nome que está no cartão",
+                        icon: Icon(Icons.person))),
+                TextFormField(
+                    controller: validThru,
+                    decoration: InputDecoration(
+                        labelText: "Digite a validade do cartao",
+                        icon: Icon(Icons.calendar_today))),
+              ],
+            ),
+          )),
+      Step(
+          isActive: true,
+          title: Text("Finalização Cadastro Usuario"),
+          content: Text(messageShowUserWhenRegisterIsComplete))
+    ];
     return Scaffold(
       body: Container(
         color: Colors.white24,
         child: Center(
           child: Container(
-            height: 600,
-            width: 600,
-            child: Form(
-              key: _formKey,
-              child: Card(
-                color: Colors.white,
-                elevation: 15,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 50.0, right: 50.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 30.0),
-                        child: Text(
-                          "Acesse a  plataforma",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                      TextFormField(
-                          controller: email,
-                          validator: BasicValidator.validEmail,
-                          decoration: InputDecoration(
-                            labelText: "Digite o email",
-                            icon: Icon(Icons.email),
-                          )),
-                      TextFormField(
-                          controller: name,
-                          validator: BasicValidator.validBasic,
-                          decoration: InputDecoration(
-                              labelText: "Digite  seu nome",
-                              icon: Icon(Icons.person))),
-                      TextFormField(
-                          controller: cpf,
-                          validator: BasicValidator.validBasic,
-                          decoration: InputDecoration(
-                              labelText: "Digite  seu CPF",
-                              icon: Icon(Icons.person))),
-                      TextFormField(
-                          controller: address,
-                          validator: BasicValidator.validBasic,
-                          decoration: InputDecoration(
-                              labelText: "Digite  seu endereço",
-                              icon: Icon(Icons.person))),
-                      TextPasswordField(
-                        validator: _validPassword,
-                        controller: password,
-                        obscureText: true,
-                        labelText: "Digite sua senha",
-                      ),
-                      TextPasswordField(
-                        validator: _validPasswordVerification,
-                        controller: passwordVerification,
-                        obscureText: true,
-                        labelText: "Digite sua senha novamente",
-                      ),
-                      TextFormField(
-                          controller: securityCode,
-                          validator: BasicValidator.validBasic,
-                          decoration: InputDecoration(
-                              labelText: "Digite o cvv do cartão",
-                              icon: Icon(Icons.person))),
-                      TextFormField(
-                          controller: number,
-                          validator: BasicValidator.validBasic,
-                          decoration: InputDecoration(
-                              labelText: "Digite o numero do cartao",
-                              icon: Icon(Icons.person))),
-                      TextFormField(
-                          controller: nameCard,
-                          validator: BasicValidator.validBasic,
-                          decoration: InputDecoration(
-                              labelText: "Digite o nome que está no cartão ",
-                              icon: Icon(Icons.person))),
-                      TextFormField(
-                          controller: validThru,
-                          validator: BasicValidator.validBasic,
-                          decoration: InputDecoration(
-                              labelText: "Digite a validade do cartao",
-                              icon: Icon(Icons.person))),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 80)),
-                          icon: Icon(Icons.login),
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('INSIDE IF')));
-                              Map<String, dynamic> data = {
-                                "name": name.text,
-                                "cpf": cpf.text,
-                                "address": address.text,
-                              };
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('OUTSIDE IF')));
-                            }
+            height: 700,
+            width: 800,
+            child: Card(
+                child: Column(
+              children: [
+                Expanded(
+                  child: Stepper(
+                    steps: steps,
+                    currentStep: currentStep,
+                    onStepTapped: (step) {
+                      setState(() => currentStep = step);
+                    },
+                    onStepContinue: () async {
+                      print(" currentStep $currentStep");
+                      if (currentStep < 2 &&
+                          _formKeys[0].currentState.validate()) {
+                        setState(() => currentStep += 1);
+                      }
+                      if (currentStep >= 2) {
+                        print(" send formulario");
+                        var data = {
+                          "name": name.text,
+                          "password": password.text,
+                          "cpf": cpf.text,
+                          "address": address.text,
+                          "email": email.text,
+                          "card": {
+                            "name": nameCard.text,
+                            "securityCode": securityCode.text,
+                            "validThru": validThru.text,
+                            "number": number.text
                           },
-                          label: Text("Cadastrar"),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: OutlinedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 64)),
-                          icon: Icon(Icons.person_add),
-                          onPressed: () {
+                          "role": "cliente",
+                        };
+                        try {
+                          User user = await userController.create(data);
+                          if (user == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text('Erro ao cadastrar usuario')));
+                          } else {
+                            setState(() =>
+                                this.messageShowUserWhenRegisterIsComplete =
+                                    "Usuario criado com sucesso :)");
+
                             Navigator.of(context)
-                                .pushReplacementNamed('/login');
-                          },
-                          label: Text("Voltar"),
-                        ),
-                      ),
-                    ],
+                                .pushReplacementNamed(AppRoutes.LOGIN);
+                          }
+                        } catch (e) {
+                          setState(() {
+                            this.messageShowUserWhenRegisterIsComplete =
+                                "Erro na hora de cadastrar usuario verifique se o email ja não esta cadastrado, em caso de duvida contate o kaio";
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Erro ao cadastrar usuario')));
+                        }
+                      }
+                    },
+                    onStepCancel: () {
+                      currentStep > 0 ? setState(() => currentStep -= 1) : null;
+                    },
                   ),
                 ),
-              ),
-            ),
+              ],
+            )),
           ),
         ),
       ),

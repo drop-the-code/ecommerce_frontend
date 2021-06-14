@@ -1,4 +1,4 @@
-import 'package:ecommerce_frontend/repositories/Product.dart';
+import 'package:ecommerce_frontend/repositories/ProductRepository.dart';
 import 'package:ecommerce_frontend/model/Product.dart';
 
 class ProductController {
@@ -36,7 +36,7 @@ class ProductController {
       return products;
     }
     for (final productId in productsIDs) {
-      Product product = new ProductRepository().getById(productId);
+      Product product = new ProductRepository().getById(productId) as Product;
       if (product != null) {
         products.add(product);
       }

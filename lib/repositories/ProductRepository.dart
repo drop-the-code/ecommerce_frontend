@@ -21,7 +21,7 @@ class ProductRepository {
     return products;
   }
 
-  Future<Product> getById(productId) async {
+  Future<Product> getById(String productId) async {
     //SelectByID no microServico
     Product product;
     try {
