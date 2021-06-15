@@ -9,11 +9,7 @@ import 'package:ecommerce_frontend/view/auth/RegisterClient.dart';
 import 'package:ecommerce_frontend/view/auth/RegisterEmployee.dart';
 import 'package:ecommerce_frontend/view/cart/showCart.dart';
 import 'package:ecommerce_frontend/view/errors/forbidden.dart';
-<<<<<<< HEAD
-import 'package:ecommerce_frontend/view/order.dart/order.dart';
-=======
 import 'package:ecommerce_frontend/view/order/order.dart';
->>>>>>> 77fecd9e7b80d9c7c6c38e3d3d5a0a4d90366970
 import 'package:ecommerce_frontend/view/product/productList.dart';
 import 'package:ecommerce_frontend/view/product/product_form.dart';
 import 'package:ecommerce_frontend/view/errors/unknown.dart';
@@ -57,7 +53,6 @@ class Main extends StatelessWidget {
         }
         if (settings.name == AppRoutes.PRODUCT_LIST) {
           //return MaterialPageRoute(builder: (_) => ProductListPage());
-          //builder: (_) => AuthMidlleware.authBasic(ProductListPage()));
           return MaterialPageRoute(
               builder: (_) => AuthMidlleware.guestBasic(ProductListPage()));
         }
@@ -82,9 +77,8 @@ class Main extends StatelessWidget {
         }
 
         if (settings.name == AppRoutes.ORDER) {
-          var order = settings.arguments;
-          return MaterialPageRoute(
-              builder: (context) => OrderStatefulWidget(order));
+          //var order = settings.arguments;
+          //return MaterialPageRoute(builder: (context) => OrderStatefulWidget(order));
         }
 
         // unknown route
