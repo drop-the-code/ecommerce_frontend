@@ -29,9 +29,8 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       appBar: new AppBar(
-        //title: new Text(widget.title),
         title: new Text('Carrinho'),
         actions: <Widget>[
           IconButton(

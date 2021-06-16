@@ -8,10 +8,10 @@ class ProductRepository {
   Dio _dio = Dio();
 
   Future<List<Product>> getAll() async {
-    UserStore userStore = UserSession.instance;
-    User user = userStore.getUser();
     List<Product> products = [];
     try {
+      UserStore userStore = UserSession.instance;
+      User user = userStore.getUser();
       var response = await _dio.get('http://localhost:3000/product',
           options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
       for (var u in response.data) {
@@ -30,10 +30,12 @@ class ProductRepository {
   }
 
   Future<Product> getById(String productId) async {
-    //SelectByID no microServico
     Product product;
     try {
-      var response = await _dio.get("http://localhost:3000/product/$productId");
+      UserStore userStore = UserSession.instance;
+      User user = userStore.getUser();
+      var response = await _dio.get("http://localhost:3000/product/$productId",
+          options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
       //await Dio().get('http://localhost:3000/product',queryParameters: {'id': productId});
       //await Dio().get('http://localhost:3000/product?id=' + productId);
       //print(response.data.toString());
@@ -51,9 +53,9 @@ class ProductRepository {
   }
 
   Future<bool> post(Product product) async {
-    UserStore userStore = UserSession.instance;
-    User user = userStore.getUser();
     try {
+      UserStore userStore = UserSession.instance;
+      User user = userStore.getUser();
       var response = await _dio.post('http://localhost:3000/product',
           options: Options(headers: {"Authorization": "Bearer ${user.token}"}),
           data: {
@@ -74,14 +76,18 @@ class ProductRepository {
 
   Future<bool> put(Product product) async {
     try {
+      UserStore userStore = UserSession.instance;
+      User user = userStore.getUser();
       String id = product.id;
-      var response = await _dio.put("http://localhost:3000/product/$id", data: {
-        'id': id,
-        'name': product.name,
-        'price': product.price,
-        'provider_cnpj': product.provider_cnpj,
-        'description': product.description,
-      });
+      var response = await _dio.put("http://localhost:3000/product/$id",
+          options: Options(headers: {"Authorization": "Bearer ${user.token}"}),
+          data: {
+            'id': id,
+            'name': product.name,
+            'price': product.price,
+            'provider_cnpj': product.provider_cnpj,
+            'description': product.description,
+          });
       if (response.data == null) {
         return false;
       }
@@ -93,7 +99,10 @@ class ProductRepository {
 
   Future<bool> delete(String id) async {
     try {
-      var response = await _dio.delete("http://localhost:3000/product/$id");
+      UserStore userStore = UserSession.instance;
+      User user = userStore.getUser();
+      var response = await _dio.delete("http://localhost:3000/product/$id",
+          options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
       if (response.data == null) {
         return false;
       }
