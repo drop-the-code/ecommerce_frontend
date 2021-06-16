@@ -1,16 +1,22 @@
 import 'package:dio/dio.dart';
 import 'package:ecommerce_frontend/model/Cart.dart';
-// import 'package:ecommerce_frontend/model/Product.dart';
+import 'package:ecommerce_frontend/model/User.dart';
+import 'package:ecommerce_frontend/shared/store/user_store.dart';
+import 'package:ecommerce_frontend/shared/user_session.dart';
+
 
 //updateAddOneProduct
 class CartRepository {
   //o microservico cart, recebe 1 productId e o add ao array de productsId
   Future<bool> addProduct(String cartId, String productId) async {
     try {
-      var response =
-          await Dio().put('http://localhost:3000/carts/' + cartId, data: {
-        'productListId': [productId],
-      });
+      UserStore userStore = UserSession.instance;
+      User user = userStore.getUser();
+      var response = await Dio().put('http://localhost:3000/carts/$cartId',
+          options: Options(headers: {"Authorization": "Bearer ${user.token}"}),
+          data: {
+            'productListId': [productId],
+          });
       if (response.data == null) {
         return false;
       }
@@ -22,8 +28,11 @@ class CartRepository {
   Future<Cart> getCartByClientId(String clientId) async {
     Cart cart;
     try {
-      var response =
-          await Dio().get('http://localhost:3000/carts?clientId=' + clientId);
+      UserStore userStore = UserSession.instance;
+      User user = userStore.getUser();
+      var response = await Dio().get(
+          'http://localhost:3000/carts?clientId=$clientId',
+          options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
       var data = response.data[0];
       cart = new Cart(
           productListId: data["productListId"],
@@ -41,7 +50,10 @@ class CartRepository {
   Future<Cart> getCart(String id) async {
     Cart cart;
     try {
-      var response = await Dio().get('http://localhost:3000/carts/' + id);
+      UserStore userStore = UserSession.instance;
+      User user = userStore.getUser();
+      var response = await Dio().get('http://localhost:3000/carts/$id',
+          options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
       var data = response.data;
       cart = new Cart(
           productListId: data["productListId"],
