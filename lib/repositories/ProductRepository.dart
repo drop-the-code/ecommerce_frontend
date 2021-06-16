@@ -16,13 +16,15 @@ class ProductRepository {
           options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
       for (var u in response.data) {
         Product product = new Product(
-            id: u["id"].toString(),
+            id: u["id"],
             name: u["name"],
             price: u["price"] as double,
             provider_cnpj: u["provider_cnpj"],
             description: u["description"]);
         products.add(product);
       }
+      print("AQUI>>>>>>>>>>>>>>>>>>>>>>>");
+      print(response.data);
     } catch (e) {
       print(e);
     }
@@ -74,7 +76,7 @@ class ProductRepository {
 
   Future<bool> put(Product product) async {
     try {
-      String id = product.id;
+      int id = product.id;
       var response = await _dio.put("http://localhost:3000/product/$id", data: {
         'id': id,
         'name': product.name,
@@ -91,9 +93,12 @@ class ProductRepository {
     return true;
   }
 
-  Future<bool> delete(String id) async {
+  Future<bool> delete(int id) async {
     try {
-      var response = await _dio.delete("http://localhost:3000/product/$id");
+      var userStore = UserSession.instance;
+      User user = userStore.getUser();
+      var response = await _dio.delete("http://localhost:3000/product/$id",
+          options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
       if (response.data == null) {
         return false;
       }

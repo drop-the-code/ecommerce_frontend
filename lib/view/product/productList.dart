@@ -16,13 +16,32 @@ class ProductListPage extends StatefulWidget {
 }
 
 class _ProductListPageState extends State<ProductListPage> {
-  final Future<List<Product>> products = new ProductController().get_all();
+  List<Product> products;
   UserStore userStore = UserSession.instance;
   User user;
+  StreamController streamController = StreamController();
+
   @override
   void initState() {
     super.initState();
     this.user = userStore.getUser();
+    _loadProducts();
+  }
+
+  void _loadProducts() async {
+    this.products = await ProductController().get_all();
+    streamController.sink.add(products);
+  }
+
+  void _removeProduct(int id) async {
+    await ProductController().delete(id);
+    this.products = await ProductController().get_all();
+    Navigator.of(context).pop();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   //print(user.role);
@@ -61,11 +80,8 @@ class _ProductListPageState extends State<ProductListPage> {
                             ),
                             FlatButton(
                               child: Text('Sim'),
-                              onPressed: () async {
-                                bool error = await new ProductController()
-                                    .delete(product.id);
-                                print(error);
-                                Navigator.of(context).pop();
+                              onPressed: () {
+                                _removeProduct(product.id);
                               },
                             ),
                           ],
@@ -146,8 +162,8 @@ class _ProductListPageState extends State<ProductListPage> {
         //actions: <Widget>[IconButton(icon: Icon(Icons.delete),onPressed: () => confirmDelete(context),),],
       ),
       body: Container(
-        child: FutureBuilder(
-          future: products,
+        child: StreamBuilder(
+          stream: streamController.stream,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               //if (snapshot.connectionState == ConnectionState.done) {
