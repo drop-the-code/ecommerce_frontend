@@ -3,16 +3,17 @@ import 'package:ecommerce_frontend/model/Product.dart';
 import 'package:ecommerce_frontend/model/User.dart';
 import 'package:ecommerce_frontend/shared/store/user_store.dart';
 import 'package:ecommerce_frontend/shared/user_session.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ProductRepository {
-  Dio _dio = Dio();
+  Dio _dio = Dio(BaseOptions(baseUrl: dotenv.env['BASE_URL']));
 
   Future<List<Product>> getAll() async {
     List<Product> products = [];
     try {
       UserStore userStore = UserSession.instance;
       User user = userStore.getUser();
-      var response = await _dio.get('http://localhost:3000/product',
+      var response = await _dio.get('product',
           options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
       for (var u in response.data) {
         Product product = new Product(
@@ -36,7 +37,7 @@ class ProductRepository {
     try {
       UserStore userStore = UserSession.instance;
       User user = userStore.getUser();
-      var response = await _dio.get("http://localhost:3000/product/$productId",
+      var response = await _dio.get("product/$productId",
           options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
       //await Dio().get('http://localhost:3000/product',queryParameters: {'id': productId});
       //await Dio().get('http://localhost:3000/product?id=' + productId);
@@ -58,7 +59,7 @@ class ProductRepository {
     try {
       UserStore userStore = UserSession.instance;
       User user = userStore.getUser();
-      var response = await _dio.post('http://localhost:3000/product',
+      var response = await _dio.post('product',
           options: Options(headers: {"Authorization": "Bearer ${user.token}"}),
           data: {
             'id': product.id,
@@ -77,15 +78,19 @@ class ProductRepository {
   }
 
   Future<bool> put(Product product) async {
+    UserStore userStore = UserSession.instance;
+    User user = userStore.getUser();
     try {
       int id = product.id;
-      var response = await _dio.put("http://localhost:3000/product/$id", data: {
-        'id': id,
-        'name': product.name,
-        'price': product.price,
-        'provider_cnpj': product.provider_cnpj,
-        'description': product.description,
-      });
+      var response = await _dio.put("product/$id",
+          options: Options(headers: {"Authorization": "Bearer ${user.token}"}),
+          data: {
+            'id': id,
+            'name': product.name,
+            'price': product.price,
+            'provider_cnpj': product.provider_cnpj,
+            'description': product.description,
+          });
       if (response.data == null) {
         return false;
       }
@@ -99,7 +104,7 @@ class ProductRepository {
     try {
       var userStore = UserSession.instance;
       User user = userStore.getUser();
-      var response = await _dio.delete("http://localhost:3000/product/$id",
+      var response = await _dio.delete("product/$id",
           options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
       if (response.data == null) {
         return false;

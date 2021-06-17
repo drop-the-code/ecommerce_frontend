@@ -3,16 +3,18 @@ import 'package:ecommerce_frontend/model/Cart.dart';
 import 'package:ecommerce_frontend/model/User.dart';
 import 'package:ecommerce_frontend/shared/store/user_store.dart';
 import 'package:ecommerce_frontend/shared/user_session.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 //updateAddOneProduct
 class CartRepository {
+  Dio _dio = Dio(BaseOptions(baseUrl: dotenv.env['BASE_URL']));
+
   //o microservico cart, recebe 1 productId e o add ao array de productsId
-  Future<bool> addProduct(String cartId, String productId) async {
+  Future<bool> addProduct(String cartId, int productId) async {
     try {
       UserStore userStore = UserSession.instance;
       User user = userStore.getUser();
-      var response = await Dio().put('http://localhost:3000/carts/$cartId',
+      var response = await Dio().put('cart/$cartId',
           options: Options(headers: {"Authorization": "Bearer ${user.token}"}),
           data: {
             'productListId': [productId],
@@ -30,8 +32,7 @@ class CartRepository {
     try {
       UserStore userStore = UserSession.instance;
       User user = userStore.getUser();
-      var response = await Dio().get(
-          'http://localhost:3000/carts?clientId=$clientId',
+      var response = await Dio().get('cart/client/$clientId',
           options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
       var data = response.data[0];
       cart = new Cart(
@@ -52,7 +53,7 @@ class CartRepository {
     try {
       UserStore userStore = UserSession.instance;
       User user = userStore.getUser();
-      var response = await Dio().get('http://localhost:3000/carts/$id',
+      var response = await Dio().get('cart/$id',
           options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
       var data = response.data;
       cart = new Cart(

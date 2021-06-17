@@ -1,6 +1,8 @@
 import 'package:ecommerce_frontend/controller/CartController.dart';
 import 'package:ecommerce_frontend/controller/ProductController.dart';
+import 'package:ecommerce_frontend/controller/user_controller.dart';
 import 'package:ecommerce_frontend/model/User.dart';
+import 'package:ecommerce_frontend/repositories/UserRepository.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:ecommerce_frontend/shared/store/user_store.dart';
 import 'package:ecommerce_frontend/shared/user_session.dart';
@@ -17,6 +19,7 @@ class ProductListPage extends StatefulWidget {
 
 class _ProductListPageState extends State<ProductListPage> {
   List<Product> products;
+
   UserStore userStore = UserSession.instance;
   User user;
   StreamController streamController = StreamController();
@@ -36,6 +39,7 @@ class _ProductListPageState extends State<ProductListPage> {
   void _removeProduct(int id) async {
     await ProductController().delete(id);
     this.products = await ProductController().get_all();
+    streamController.sink.add(products);
     Navigator.of(context).pop();
   }
 
@@ -59,8 +63,9 @@ class _ProductListPageState extends State<ProductListPage> {
               icon: new Icon(Icons.edit),
               color: Colors.orange,
               onPressed: () {
-                Navigator.of(context)
-                    .pushNamed(AppRoutes.PRODUCT_FORM, arguments: product);
+                Navigator.of(context).pushReplacementNamed(
+                    AppRoutes.PRODUCT_FORM,
+                    arguments: product);
               }),
           IconButton(
               icon: new Icon(Icons.delete),
@@ -103,8 +108,10 @@ class _ProductListPageState extends State<ProductListPage> {
     }
 
     List<Widget> meunuButtonPerUser() {
+      List<Widget> listMenu = List<Widget>();
+
       if (this.user.role == "funcionario") {
-        return [
+        listMenu = [
           IconButton(
             icon: Icon(Icons.person),
             onPressed: () =>
@@ -118,7 +125,7 @@ class _ProductListPageState extends State<ProductListPage> {
               }),
         ];
       } else {
-        return [
+        listMenu = [
           IconButton(
               icon: Icon(Icons.shopping_cart),
               onPressed: () {
@@ -153,6 +160,16 @@ class _ProductListPageState extends State<ProductListPage> {
               })
         ];
       }
+      listMenu.add(IconButton(
+          icon: Icon(Icons.logout),
+          onPressed: () async {
+            // fazer req pro logout
+            await UserController().logout();
+            UserStore userStore = UserSession.instance;
+            userStore.setUser(null);
+            Navigator.of(context).pushReplacementNamed(AppRoutes.LOGIN);
+          }));
+      return listMenu;
     }
 
     return new Scaffold(

@@ -1,5 +1,6 @@
 import 'package:ecommerce_frontend/controller/ProductController.dart';
 import 'package:ecommerce_frontend/model/Product.dart';
+import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -55,7 +56,8 @@ class _ProductFormState extends State<ProductForm> {
                     await new ProductController().put(product);
                   }
                   // print(error);
-                  Navigator.of(context).pop();
+                  Navigator.of(context)
+                      .pushReplacementNamed(AppRoutes.PRODUCT_LIST);
                 }
               })
         ],
