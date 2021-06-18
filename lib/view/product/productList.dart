@@ -2,6 +2,7 @@ import 'package:ecommerce_frontend/controller/CartController.dart';
 import 'package:ecommerce_frontend/controller/OrderController.dart';
 import 'package:ecommerce_frontend/controller/ProductController.dart';
 import 'package:ecommerce_frontend/model/User.dart';
+import 'package:ecommerce_frontend/model/Cart.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:ecommerce_frontend/shared/store/user_store.dart';
 import 'package:ecommerce_frontend/shared/user_session.dart';
@@ -135,14 +136,11 @@ class _ProductListPageState extends State<ProductListPage> {
                             FlatButton(
                               child: Text('Sim'),
                               onPressed: () async {
-                                // Navigator.of(context).pushNamed(AppRoutes.ORDER);
-                                // Navigator.of(context).pushReplacementNamed(AppRoutes.ORDER);
-                                // passo o cartId pro microSerivod
-                                // abrir a tela com valor que retornar
-
-                                //bool error = await new ProductController().finalShop(product.id);
-                                //print(error);
-                                Navigator.of(context).pop();
+                                Cart cart = await new CartController()
+                                    .getCartByClientId(user.id);
+                                Navigator.of(context).pushNamed(AppRoutes.ORDER,
+                                    arguments: cart);
+                                //Navigator.of(context).pop();
                               },
                             ),
                           ],
@@ -156,7 +154,6 @@ class _ProductListPageState extends State<ProductListPage> {
       appBar: new AppBar(
         title: new Text('Produtos'),
         actions: meunuButtonPerUser(),
-        //actions: <Widget>[IconButton(icon: Icon(Icons.delete),onPressed: () => confirmDelete(context),),],
       ),
       body: Container(
         child: FutureBuilder(

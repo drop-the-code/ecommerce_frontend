@@ -9,7 +9,7 @@ import 'package:ecommerce_frontend/view/auth/RegisterClient.dart';
 import 'package:ecommerce_frontend/view/auth/RegisterEmployee.dart';
 import 'package:ecommerce_frontend/view/cart/showCart.dart';
 import 'package:ecommerce_frontend/view/errors/forbidden.dart';
-import 'package:ecommerce_frontend/view/order/order.dart';
+import 'package:ecommerce_frontend/view/order/order_show.dart';
 import 'package:ecommerce_frontend/view/product/productList.dart';
 import 'package:ecommerce_frontend/view/product/product_form.dart';
 import 'package:ecommerce_frontend/view/errors/unknown.dart';
@@ -62,10 +62,10 @@ class Main extends StatelessWidget {
           return MaterialPageRoute(builder: (context) => ProductForm(product));
         }
 
-        if (settings.name == AppRoutes.ORDER) {
-          //var order = settings.arguments;
-          return MaterialPageRoute(builder: (context) => PayPage());
-        }
+        // if (settings.name == AppRoutes.ORDER) {
+        //   //var order = settings.arguments;
+        //   return MaterialPageRoute(builder: (context) => PayPage());
+        // }
 
         if (settings.name == AppRoutes.CART) {
           return MaterialPageRoute(builder: (context) => Cart_show());
@@ -77,6 +77,9 @@ class Main extends StatelessWidget {
         }
 
         if (settings.name == AppRoutes.ORDER) {
+          var cart = settings.arguments;
+          return MaterialPageRoute(
+              builder: (context) => OrderStatefulWidget(cart: cart));
           //var order = settings.arguments;
           //return MaterialPageRoute(builder: (context) => OrderStatefulWidget(order));
         }
