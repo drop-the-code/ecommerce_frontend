@@ -20,17 +20,17 @@ class Product {
   int id;
   String name;
   double price;
-  String providerCnpj;
+  String provider_cnpj;
   String description;
 
   Product(
-      {this.id, this.name, this.price, this.providerCnpj, this.description});
+      {this.id, this.name, this.price, this.provider_cnpj, this.description});
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     price = json['price'];
-    providerCnpj = json['provider_cnpj'];
+    provider_cnpj = json['provider_cnpj'];
     description = json['description'];
   }
 
@@ -39,7 +39,7 @@ class Product {
     data['id'] = this.id;
     data['name'] = this.name;
     data['price'] = this.price;
-    data['provider_cnpj'] = this.providerCnpj;
+    data['provider_cnpj'] = this.provider_cnpj;
     data['description'] = this.description;
     return data;
   }
