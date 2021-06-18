@@ -1,5 +1,8 @@
 import 'package:ecommerce_frontend/controller/CartController.dart';
+import 'package:ecommerce_frontend/model/User.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
+import 'package:ecommerce_frontend/shared/store/user_store.dart';
+import 'package:ecommerce_frontend/shared/user_session.dart';
 import 'package:flutter/material.dart';
 import '../../model/Cart.dart';
 import 'dart:async';
@@ -25,7 +28,16 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  final Future<Cart> cart = new CartController().getCart('1');
+  UserStore userStore = UserSession.instance;
+  User user = User();
+  CartController cartController = CartController();
+  Future<Cart> cart;
+  @override
+  void initState() {
+    super.initState();
+    user = userStore.getUser();
+    this.cart = cartController.getCartByClientId(user.id);
+  }
 
   @override
   Widget build(BuildContext context) {

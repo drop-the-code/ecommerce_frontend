@@ -1,5 +1,6 @@
 import 'package:ecommerce_frontend/controller/ProductController.dart';
 import 'package:ecommerce_frontend/model/Product.dart';
+import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -44,7 +45,7 @@ class _ProductFormState extends State<ProductForm> {
                 if (isValid) {
                   _form.currentState.save();
                   Product product = new Product(
-                      id: _formData['id'] as String,
+                      id: _formData['id'],
                       name: _formData['name'] as String,
                       price: ((_formData['price']) as double) + .0,
                       provider_cnpj: _formData['provider_cnpj'] as String,
@@ -55,7 +56,8 @@ class _ProductFormState extends State<ProductForm> {
                     await new ProductController().put(product);
                   }
                   // print(error);
-                  Navigator.of(context).pop();
+                  Navigator.of(context)
+                      .pushReplacementNamed(AppRoutes.PRODUCT_LIST);
                 }
               })
         ],

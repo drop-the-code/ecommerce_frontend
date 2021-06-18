@@ -15,4 +15,6 @@ class Cart {
       this.updatedAt,
       this.clientId,
       this.status});
+
+  bool isActivatedCart(cart) {}
 }

@@ -19,7 +19,6 @@ class CartController {
   // UpdateAddOneProduct
   Future<bool> addProduct(Product product, String clientId) async {
     Cart cart = await getCartByClientId(clientId);
-    //print(cart.toString());
     if (cart == null) {
       return Future<bool>.value(false);
     }

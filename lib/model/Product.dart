@@ -16,22 +16,21 @@
 //   //   return id + name;
 //   // }
 // }
-
 class Product {
-  String id;
+  int id;
   String name;
   double price;
-  String provider_cnpj;
+  String providerCnpj;
   String description;
 
   Product(
-      {this.id, this.name, this.price, this.provider_cnpj, this.description});
+      {this.id, this.name, this.price, this.providerCnpj, this.description});
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     price = json['price'];
-    provider_cnpj = json['provider_cnpj'];
+    providerCnpj = json['provider_cnpj'];
     description = json['description'];
   }
 
@@ -40,7 +39,7 @@ class Product {
     data['id'] = this.id;
     data['name'] = this.name;
     data['price'] = this.price;
-    data['provider_cnpj'] = this.provider_cnpj;
+    data['provider_cnpj'] = this.providerCnpj;
     data['description'] = this.description;
     return data;
   }

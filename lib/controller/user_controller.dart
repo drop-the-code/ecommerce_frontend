@@ -30,4 +30,8 @@ class UserController {
   Future<User> delete(String id) async {
     return await userRepository.delete(id);
   }
+
+  Future<bool> logout() async {
+    return await userRepository.logout();
+  }
 }

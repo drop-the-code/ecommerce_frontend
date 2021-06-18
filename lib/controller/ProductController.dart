@@ -22,7 +22,7 @@ class ProductController {
     return new ProductRepository().post(product);
   }
 
-  Future<bool> delete(String id) {
+  Future<bool> delete(int id) {
     //print(product.toString());
     if (id == null) {
       return Future<bool>.value(false);

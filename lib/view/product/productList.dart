@@ -1,8 +1,10 @@
 import 'package:ecommerce_frontend/controller/CartController.dart';
 import 'package:ecommerce_frontend/controller/OrderController.dart';
 import 'package:ecommerce_frontend/controller/ProductController.dart';
+import 'package:ecommerce_frontend/controller/user_controller.dart';
 import 'package:ecommerce_frontend/model/User.dart';
 import 'package:ecommerce_frontend/model/Cart.dart';
+import 'package:ecommerce_frontend/repositories/UserRepository.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:ecommerce_frontend/shared/store/user_store.dart';
 import 'package:ecommerce_frontend/shared/user_session.dart';
@@ -18,13 +20,34 @@ class ProductListPage extends StatefulWidget {
 }
 
 class _ProductListPageState extends State<ProductListPage> {
-  final Future<List<Product>> products = new ProductController().get_all();
+  List<Product> products;
+
   UserStore userStore = UserSession.instance;
   User user;
+  StreamController streamController = StreamController();
+
   @override
   void initState() {
     super.initState();
     this.user = userStore.getUser();
+    _loadProducts();
+  }
+
+  void _loadProducts() async {
+    this.products = await ProductController().get_all();
+    streamController.sink.add(products);
+  }
+
+  void _removeProduct(int id) async {
+    await ProductController().delete(id);
+    this.products = await ProductController().get_all();
+    streamController.sink.add(products);
+    Navigator.of(context).pop();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   //print(user.role);
@@ -42,8 +65,9 @@ class _ProductListPageState extends State<ProductListPage> {
               icon: new Icon(Icons.edit),
               color: Colors.orange,
               onPressed: () {
-                Navigator.of(context)
-                    .pushNamed(AppRoutes.PRODUCT_FORM, arguments: product);
+                Navigator.of(context).pushReplacementNamed(
+                    AppRoutes.PRODUCT_FORM,
+                    arguments: product);
               }),
           IconButton(
               icon: new Icon(Icons.delete),
@@ -63,11 +87,8 @@ class _ProductListPageState extends State<ProductListPage> {
                             ),
                             FlatButton(
                               child: Text('Sim'),
-                              onPressed: () async {
-                                bool error = await new ProductController()
-                                    .delete(product.id);
-                                print(error);
-                                Navigator.of(context).pop();
+                              onPressed: () {
+                                _removeProduct(product.id);
                               },
                             ),
                           ],
@@ -96,8 +117,10 @@ class _ProductListPageState extends State<ProductListPage> {
     }
 
     List<Widget> meunuButtonPerUser() {
+      List<Widget> listMenu = List<Widget>();
+
       if (this.user.role == "funcionario") {
-        return [
+        listMenu = [
           IconButton(
             icon: Icon(Icons.person),
             onPressed: () =>
@@ -111,7 +134,7 @@ class _ProductListPageState extends State<ProductListPage> {
               }),
         ];
       } else {
-        return [
+        listMenu = [
           IconButton(
               icon: Icon(Icons.shopping_cart),
               onPressed: () {
@@ -148,6 +171,16 @@ class _ProductListPageState extends State<ProductListPage> {
               })
         ];
       }
+      listMenu.add(IconButton(
+          icon: Icon(Icons.logout),
+          onPressed: () async {
+            // fazer req pro logout
+            await UserController().logout();
+            UserStore userStore = UserSession.instance;
+            userStore.setUser(null);
+            Navigator.of(context).pushReplacementNamed(AppRoutes.LOGIN);
+          }));
+      return listMenu;
     }
 
     return new Scaffold(
@@ -156,8 +189,8 @@ class _ProductListPageState extends State<ProductListPage> {
         actions: meunuButtonPerUser(),
       ),
       body: Container(
-        child: FutureBuilder(
-          future: products,
+        child: StreamBuilder(
+          stream: streamController.stream,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               //if (snapshot.connectionState == ConnectionState.done) {

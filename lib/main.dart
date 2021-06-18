@@ -15,10 +15,12 @@ import 'package:ecommerce_frontend/view/product/product_form.dart';
 import 'package:ecommerce_frontend/view/errors/unknown.dart';
 import 'package:ecommerce_frontend/view/user/user_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'model/User.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(Main());
 }
 
