@@ -9,9 +9,8 @@ class UserRepository {
 
   Future<User> login(String email, String password) async {
     try {
-      Map<String, dynamic> userLogin = {"email": email, "password": password};
-      var response = await _dio.post("http://localhost:3000/login/",
-          data: userLogin,
+      var response = await _dio.get(
+          "http://localhost:3000/login?email=$email&password=$password",
           options: Options(headers: {
             "Access-Control-Allow-Origin":
                 "*", // Required for CORS support to work
@@ -23,16 +22,44 @@ class UserRepository {
           }));
       if (response.statusCode == 200) {
         print("dentro if 200");
-        // print(response.data);
-        User user = User.fromJson(response.data);
+        //print(response.data);
+        User user = User.fromJson(response.data[0]);
+        //print(user);
         return user;
-      } else
+      } else {
         print("fora if 200");
+      }
       return User();
     } catch (e) {
       print(e);
     }
   }
+  // Future<User> login(String email, String password) async {
+  //   try {
+  //     Map<String, dynamic> userLogin = {"email": email, "password": password};
+  //     var response = await _dio.post("http://localhost:3000/login/",
+  //         data: userLogin,
+  //         options: Options(headers: {
+  //           "Access-Control-Allow-Origin":
+  //               "*", // Required for CORS support to work
+  //           "Access-Control-Allow-Credentials":
+  //               true, // Required for cookies, authorization headers with HTTPS
+  //           "Access-Control-Allow-Headers":
+  //               "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+  //           "Access-Control-Allow-Methods": "POST, OPTIONS"
+  //         }));
+  //     if (response.statusCode == 200) {
+  //       print("dentro if 200");
+  //       // print(response.data);
+  //       User user = User.fromJson(response.data);
+  //       return user;
+  //     } else
+  //       print("fora if 200");
+  //     return User();
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   Future<List<User>> listAllUsers() async {
     UserStore userStore = UserSession.instance;

@@ -4,7 +4,6 @@ import 'package:ecommerce_frontend/model/User.dart';
 import 'package:ecommerce_frontend/shared/store/user_store.dart';
 import 'package:ecommerce_frontend/shared/user_session.dart';
 
-
 //updateAddOneProduct
 class CartRepository {
   //o microservico cart, recebe 1 productId e o add ao array de productsId
@@ -12,7 +11,7 @@ class CartRepository {
     try {
       UserStore userStore = UserSession.instance;
       User user = userStore.getUser();
-      var response = await Dio().put('http://localhost:3000/carts/$cartId',
+      var response = await Dio().put('http://localhost:3000/cart/$cartId',
           options: Options(headers: {"Authorization": "Bearer ${user.token}"}),
           data: {
             'productListId': [productId],
@@ -20,6 +19,7 @@ class CartRepository {
       if (response.data == null) {
         return false;
       }
+      return true;
     } catch (e) {
       print(e);
     }
@@ -31,7 +31,7 @@ class CartRepository {
       UserStore userStore = UserSession.instance;
       User user = userStore.getUser();
       var response = await Dio().get(
-          'http://localhost:3000/carts?clientId=$clientId',
+          'http://localhost:3000/cart?clientId=$clientId',
           options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
       var data = response.data[0];
       cart = new Cart(
@@ -52,7 +52,7 @@ class CartRepository {
     try {
       UserStore userStore = UserSession.instance;
       User user = userStore.getUser();
-      var response = await Dio().get('http://localhost:3000/carts/$id',
+      var response = await Dio().get('http://localhost:3000/cart/$id',
           options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
       var data = response.data;
       cart = new Cart(

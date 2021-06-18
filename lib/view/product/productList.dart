@@ -1,4 +1,5 @@
 import 'package:ecommerce_frontend/controller/CartController.dart';
+import 'package:ecommerce_frontend/controller/OrderController.dart';
 import 'package:ecommerce_frontend/controller/ProductController.dart';
 import 'package:ecommerce_frontend/model/User.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
@@ -78,9 +79,16 @@ class _ProductListPageState extends State<ProductListPage> {
               icon: new Icon(Icons.add_shopping_cart),
               color: Colors.green,
               onPressed: () async {
-                bool error =
+                bool response =
                     await new CartController().addProduct(product, userId);
-                print(error);
+                print(response);
+                String msg = "Erro ao adicionar produto ao carrinho";
+                if (response) {
+                  msg = "Produto adicionado carrinho com sucesso";
+                }
+                AlertDialog(
+                  title: Text(msg),
+                );
               }),
         ];
       }
@@ -127,6 +135,11 @@ class _ProductListPageState extends State<ProductListPage> {
                             FlatButton(
                               child: Text('Sim'),
                               onPressed: () async {
+                                // Navigator.of(context).pushNamed(AppRoutes.ORDER);
+                                // Navigator.of(context).pushReplacementNamed(AppRoutes.ORDER);
+                                // passo o cartId pro microSerivod
+                                // abrir a tela com valor que retornar
+
                                 //bool error = await new ProductController().finalShop(product.id);
                                 //print(error);
                                 Navigator.of(context).pop();

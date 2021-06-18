@@ -14,7 +14,6 @@ class CartController {
   Future<Cart> getCartByClientId(String clientId) {
     var cart = new CartRepository().getCartByClientId(clientId);
     return cart;
-    // return products as List<Product>;
   }
 
   // UpdateAddOneProduct
@@ -22,9 +21,9 @@ class CartController {
     Cart cart = await getCartByClientId(clientId);
     //print(cart.toString());
     if (cart == null) {
-      return false;
+      return Future<bool>.value(false);
     }
-    var error = new CartRepository().addProduct(cart.id, product.id);
-    return true;
+    var response = new CartRepository().addProduct(cart.id, product.id);
+    return response;
   }
 }
