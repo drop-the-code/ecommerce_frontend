@@ -1,16 +1,16 @@
 # ecommerce_frontend
 
-A new Flutter project.
+Aplicação front-end para o projeto ecommerce,
+onde o foco não é desenvolver o projeto em si,
+mas usar novas tecnoligas.
 
-## Getting Started
+Esta aplicação é feita em Flutter, e seus dados são servidos a partir do micro serviço API-GATEWAY, que por sua vez requisita o respectivo micro serviço.
 
-This project is a starting point for a Flutter application.
+Esta aplicação flutter não tem otimizações minimas,
+pois o foco foi lidar com diversos micro serviços se comunicando via gRPC.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+suas telas são:
+    LOGIN, REGISTER: controler de USER(FUNCIONARIO, CLIENTE);
+    PRODUCT: CRUD de produtos, clientes adiciona produtos ao seu carrinho de compra;
+    CART: mostrar o que o cliente logado adiciou ao CART;
+    ORDER: exibe compra realizada do cliente dos produtos que estavam no carrinho;
