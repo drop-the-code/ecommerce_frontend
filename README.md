@@ -14,3 +14,5 @@ suas telas são:
     PRODUCT: CRUD de produtos, clientes adiciona produtos ao seu carrinho de compra;
     CART: mostrar o que o cliente logado adiciou ao CART;
     ORDER: exibe compra realizada do cliente dos produtos que estavam no carrinho;
+
+o arquivo .env no qual tem o item base_url é usado para  url da api

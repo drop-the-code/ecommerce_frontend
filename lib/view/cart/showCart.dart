@@ -1,4 +1,6 @@
 import 'package:ecommerce_frontend/controller/CartController.dart';
+import 'package:ecommerce_frontend/controller/ProductController.dart';
+import 'package:ecommerce_frontend/model/Product.dart';
 import 'package:ecommerce_frontend/model/User.dart';
 import 'package:ecommerce_frontend/routes/app_routes.dart';
 import 'package:ecommerce_frontend/shared/store/user_store.dart';
@@ -9,19 +11,6 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 
-class Cart_show extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Produtos de demonstracao',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: new CartPage(),
-    );
-  }
-}
-
 class CartPage extends StatefulWidget {
   @override
   _CartPageState createState() => new _CartPageState();
@@ -31,13 +20,14 @@ class _CartPageState extends State<CartPage> {
   UserStore userStore = UserSession.instance;
   User user = User();
   CartController cartController = CartController();
-  Future<Cart> cart;
   @override
   void initState() {
     super.initState();
     user = userStore.getUser();
-    this.cart = cartController.getCartByClientId(user.id);
+    //this.cart = cartController.getCartByClientId(user.id);
   }
+
+  void _removeProductCart(String id) {}
 
   @override
   Widget build(BuildContext context) {
@@ -46,22 +36,22 @@ class _CartPageState extends State<CartPage> {
         title: new Text('Carrinho'),
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.add),
+              icon: Icon(Icons.backspace),
               onPressed: () {
-                Navigator.of(context).pushNamed(AppRoutes.PRODUCT_LIST);
+                Navigator.of(context)
+                    .pushReplacementNamed(AppRoutes.PRODUCT_LIST);
               })
         ],
       ),
       body: Container(
         child: FutureBuilder(
-          future: cart,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
+          future: cartController.getCartByClientId(user.id),
+          builder: (BuildContext context, AsyncSnapshot<Cart> snapshot) {
             if (snapshot.hasData) {
               var data = snapshot.data;
               return Card(
-                  child: Container(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text(
                       "ID do cliente: ${data.clientId}",
@@ -84,14 +74,10 @@ class _CartPageState extends State<CartPage> {
                     Padding(
                       padding: EdgeInsets.all(10),
                     ),
-                    Text(
-                      "Lista de produtos: ${data.productListId}",
-                      //Text(cart.productListId.toString()),
-                      style: TextStyle(fontSize: 20),
-                    ),
+                    Text(data.productListId.toString())
                   ],
                 ),
-              ));
+              );
             } else {
               return Container(child: Center(child: Text("Loading...")));
             }

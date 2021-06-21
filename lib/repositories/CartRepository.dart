@@ -10,18 +10,27 @@ class CartRepository {
   Dio _dio = Dio(BaseOptions(baseUrl: dotenv.env['BASE_URL']));
 
   //o microservico cart, recebe 1 productId e o add ao array de productsId
-  Future<bool> addProduct(String cartId, int productId) async {
+  Future<bool> addProduct(String productID, String clientID) async {
     try {
       UserStore userStore = UserSession.instance;
       User user = userStore.getUser();
-      var response = await Dio().put('cart/$cartId',
-          options: Options(headers: {"Authorization": "Bearer ${user.token}"}),
+      var response = await _dio.post('cart',
+          options: Options(headers: {
+            "Authorization": "Bearer ${user.token}",
+
+            "Access-Control-Allow-Origin":
+                "*", // Required for CORS support to work
+            "Access-Control-Allow-Credentials":
+                true, // Required for cookies, authorization headers with HTTPS
+            "Access-Control-Allow-Headers":
+                "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+            "Access-Control-Allow-Methods": "POST, OPTIONS"
+          }),
           data: {
-            'productListId': [productId],
+            'client_id': clientID,
+            'product_list': [productID],
           });
-      if (response.data == null) {
-        return false;
-      }
+      print(response.data);
       return true;
     } catch (e) {
       print(e);
@@ -30,20 +39,34 @@ class CartRepository {
 
   Future<Cart> getCartByClientId(String clientId) async {
     Cart cart;
+    print(dotenv.env["BASE_URL"]);
+    print(clientId);
     try {
       UserStore userStore = UserSession.instance;
       User user = userStore.getUser();
+      print("ANTES da request");
+      var response = await _dio.get('cart/client/$clientId',
+          options: Options(headers: {
+            "Authorization": "Bearer ${user.token}",
 
-      var response = await Dio().get('cart/client/$clientId',
-          options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
-      var data = response.data[0];
+            "Access-Control-Allow-Origin":
+                "*", // Required for CORS support to work
+            "Access-Control-Allow-Credentials":
+                true, // Required for cookies, authorization headers with HTTPS
+            "Access-Control-Allow-Headers":
+                "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+            "Access-Control-Allow-Methods": "GET, OPTIONS"
+          }));
+      var data = response.data;
+      print(data);
+
       cart = new Cart(
-          productListId: data["productListId"],
+          productListId: data["product_list"],
           id: data["id"].toString(),
-          updatedAt: data["updatedAt"],
-          clientId: data["clientId"],
+          updatedAt: data["updateAt"],
+          clientId: data["client_id"],
           status: data["status"]);
-      return Future<Cart>.value(cart);
+      return cart;
     } catch (e) {
       print(e);
     }
@@ -56,11 +79,21 @@ class CartRepository {
       UserStore userStore = UserSession.instance;
       User user = userStore.getUser();
 
-      var response = await Dio().get('cart/$id',
-          options: Options(headers: {"Authorization": "Bearer ${user.token}"}));
+      var response = await _dio.get('cart/$id',
+          options: Options(headers: {
+            "Authorization": "Bearer ${user.token}",
+
+            "Access-Control-Allow-Origin":
+                "*", // Required for CORS support to work
+            "Access-Control-Allow-Credentials":
+                true, // Required for cookies, authorization headers with HTTPS
+            "Access-Control-Allow-Headers":
+                "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+            "Access-Control-Allow-Methods": "GET, OPTIONS"
+          }));
       var data = response.data;
       cart = new Cart(
-          productListId: data["productListId"],
+          productListId: data["product_list"],
           id: data["id"].toString(),
           updatedAt: data["updatedAt"],
           clientId: data["clientId"],

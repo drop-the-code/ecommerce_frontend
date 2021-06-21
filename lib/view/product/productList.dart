@@ -101,6 +101,7 @@ class _ProductListPageState extends State<ProductListPage> {
               icon: new Icon(Icons.add_shopping_cart),
               color: Colors.green,
               onPressed: () async {
+                print("tela listar produto indo pro carrinho");
                 bool response =
                     await new CartController().addProduct(product, userId);
                 print(response);
@@ -175,7 +176,7 @@ class _ProductListPageState extends State<ProductListPage> {
           icon: Icon(Icons.logout),
           onPressed: () async {
             // fazer req pro logout
-            await UserController().logout();
+            //await UserController().logout();
             UserStore userStore = UserSession.instance;
             userStore.setUser(null);
             Navigator.of(context).pushReplacementNamed(AppRoutes.LOGIN);

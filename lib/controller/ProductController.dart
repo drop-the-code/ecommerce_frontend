@@ -30,17 +30,19 @@ class ProductController {
     return new ProductRepository().delete(id);
   }
 
-  List<Product> getProductsByCart(List<String> productsIDs) {
-    List<Product> products;
+  Future<List<Product>> getProductsByCart(List<String> productsIDs) async {
+    print("AQUI PRODUCTS BY CART");
+    List<Product> products = [];
     if (productsIDs == null) {
-      return products;
+      return Future<List<Product>>.value(products);
     }
     for (final productId in productsIDs) {
-      Product product = new ProductRepository().getById(productId) as Product;
+      Product product = await new ProductRepository().getById(productId);
       if (product != null) {
         products.add(product);
+        print("ADICIONANDO PRODUTO NO ARRAY DE PRODUTO");
       }
     }
-    return products;
+    return Future<List<Product>>.value(products);
   }
 }

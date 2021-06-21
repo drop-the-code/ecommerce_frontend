@@ -70,7 +70,7 @@ class Main extends StatelessWidget {
         // }
 
         if (settings.name == AppRoutes.CART) {
-          return MaterialPageRoute(builder: (context) => Cart_show());
+          return MaterialPageRoute(builder: (context) => CartPage());
         }
 
         if (settings.name == AppRoutes.CART_FORM) {

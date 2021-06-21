@@ -27,6 +27,7 @@ class UserRepository {
   }
 
   Future<User> login(String email, String password) async {
+    print(dotenv.env["BASE_URL"]);
     try {
       Map<String, dynamic> userLogin = {"email": email, "password": password};
       var response = await _dio.post("login",
@@ -43,7 +44,7 @@ class UserRepository {
       if (response.statusCode == 200) {
         print("dentro if 200");
         //print(response.data);
-        User user = User.fromJson(response.data[0]);
+        User user = User.fromJson(response.data);
         //print(user);
         return user;
       } else {

@@ -8,6 +8,7 @@ class Cart {
   final String updatedAt;
   final String clientId;
   final bool status;
+  List<Product> products;
 
   Cart(
       {this.productListId,

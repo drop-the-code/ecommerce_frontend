@@ -77,7 +77,8 @@ class _UserListPageState extends State<UserListPage> {
                                   child: Row(
                                     children: [
                                       IconButton(
-                                          icon: Icon(Icons.delete),
+                                          icon:
+                                              Icon(Icons.remove_shopping_cart),
                                           color: Colors.red,
                                           onPressed: () async {
                                             showDialog(
